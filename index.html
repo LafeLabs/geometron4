@@ -1,0 +1,42 @@
+<html>
+<head>
+    <script src="javascript/mapfactory.js"></script>
+</head>
+<body>    
+
+    <div id = "mymap"></div>
+
+    <textarea id = "textout"></textarea>
+<script>
+
+
+
+var newmap = new Map("mynewmap");
+var newbox = new MapBox(600,600,newmap,document.getElementById("mymap"));
+//MapLink(x,y,w,h,angle,text,href,url,type)
+var drakeimg = new MapLink(0.2,0.2,0.5,1,0,"","","http://geometron.000webhostapp.com/uploadimages/image27.jpg","image");
+newmap.array.push(drakeimg);
+var toptext = new MapLink(0.5,0.25,0.15,1,0,"TOP","","","text");
+newmap.array.push(toptext);
+var bottomtext = new MapLink(0.5,.5,0.15,1,0,"<span style =\"color:red\">BOTTOM</span>","","","text");
+newmap.array.push(bottomtext);
+var arrow = new MapLink(0.4,0.4,0.1,1,180,"","index.html","http://www.cherrytreemaryland.xyz/symbol/svg/svg1556330629.svg","image");
+newmap.array.push(arrow);
+
+newbox.draw(newbox);
+
+document.getElementById("textout").value = JSON.stringify(newmap,null,"    ");
+
+
+</script>
+<style>
+#mymap{
+    border:solid;
+    position:relative;
+}
+#mymap div{
+    border:solid;
+}
+</style>
+</body>
+</html>
