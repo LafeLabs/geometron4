@@ -1,41 +1,150 @@
 <html>
 <head>
     <script src="javascript/mapfactory.js"></script>
+    <script>
+    
+var mapdata = {
+    "name": "mynewmap",
+    "array": [
+        {
+            "x": 0.2,
+            "y": 0.2,
+            "w": 0.5,
+            "h": 1,
+            "angle": 0,
+            "text": "",
+            "href": "",
+            "url": "http://geometron.000webhostapp.com/uploadimages/image27.jpg",
+            "type": "image"
+        },
+        {
+            "x": 0.5,
+            "y": 0.25,
+            "w": 0.15,
+            "h": 1,
+            "angle": 0,
+            "text": "TOP",
+            "href": "",
+            "url": "",
+            "type": "text"
+        },
+        {
+            "x": 0.5,
+            "y": 0.5,
+            "w": 0.15,
+            "h": 1,
+            "angle": 0,
+            "text": "<span style =\"color:red\">BOTTOM</span>",
+            "href": "",
+            "url": "",
+            "type": "text"
+        },
+        {
+            "x": 0.4,
+            "y": 0.4,
+            "w": 0.1,
+            "h": 1,
+            "angle": 180,
+            "text": "",
+            "href": "index.html",
+            "url": "http://www.cherrytreemaryland.xyz/symbol/svg/svg1556330629.svg",
+            "type": "image"
+        }
+    ]
+}
+</script>
 </head>
 <body>    
 
-    <div id = "mymap"></div>
-
-    <textarea id = "textout"></textarea>
+    <div id = "mainmap"></div>
+    <div id = "hammerxy">
+        <!--this covers the map exactly, sits at higher z index, and is turned off when NOT editing xy-->
+    </div>
+    <div id = "arrayeditbar">
+        <!--
+            top of array edit bar is "name: [input] "
+            each row has "edit", "up", "down","delete", the actual element, forced into the size with overflow hidden
+            when edit is clicked the linkeditbar opens and this closes
+        -->    
+        <table id = "arraynametable">
+            <tr><td>Name:</td></tr>
+            <tr><td><input id = "arraynameinput"/></td></tr>
+        </table>
+    </div>
+    <div id = "linkeditbar">
+    <!--
+    link edit bar only opens when a LINK in a map array is being edited, based on clicking the "edit" button in a row in arrayeditbar
+    to close, press the close button
+    -->
+        <div id = "savebutton">SAVE</div>
+        <div id = "closebutton">CLOSE</div>
+        <table id = "linkedittable">
+        <!--
+        table with: text, url, href, pulldown menu for type, x,y,angle,w,h,
+        -->
+        </table>       
+        <table id = "sliderbarcontroltable">
+        <!--
+        select what is being controlled: angle, w, h, 
+        -->
+        </table>
+        <div id = "sliderbar">
+        <!--Vertical slider bar on far right side of screen, only turns on in edit mode-->
+        </div>
+    </div>
 <script>
 
 
-
 var newmap = new Map("mynewmap");
-var newbox = new MapBox(600,600,newmap,document.getElementById("mymap"));
-//MapLink(x,y,w,h,angle,text,href,url,type)
-var drakeimg = new MapLink(0.2,0.2,0.5,1,0,"","","http://geometron.000webhostapp.com/uploadimages/image27.jpg","image");
-newmap.array.push(drakeimg);
-var toptext = new MapLink(0.5,0.25,0.15,1,0,"TOP","","","text");
-newmap.array.push(toptext);
-var bottomtext = new MapLink(0.5,.5,0.15,1,0,"<span style =\"color:red\">BOTTOM</span>","","","text");
-newmap.array.push(bottomtext);
-var arrow = new MapLink(0.4,0.4,0.1,1,180,"","index.html","http://www.cherrytreemaryland.xyz/symbol/svg/svg1556330629.svg","image");
-newmap.array.push(arrow);
+var newbox = new MapBox(500,500,newmap,document.getElementById("mainmap"));
 
+newmap.array = mapdata.array;
 newbox.draw(newbox);
 
-document.getElementById("textout").value = JSON.stringify(newmap,null,"    ");
+document.getElementById("arraynameinput").value = newmap.name;
 
+for(var index = 0;index < newmap.array.length; index++) {
+    var newp = document.createElement("P");
+    var newt = document.createElement("TABLE");
+    var newtr = document.createAttribute("TR");
+    newp.appendChild(newt);
+    newt.appendChild(newtr);
+
+    var edittd = document.createElement("TD");//edit link
+    edittd.classList.add("arrayeditbutton");
+    var backtd = document.createElement("TD");//move link back
+    backtd.classList.add("arrayeditbutton");
+    var fwdtd = document.createElement("TD");//move link forward
+    fwdtd.classList.add("arrayeditbutton");
+    var deletetd = document.createElement("TD");//delete link
+    deletetd.classList.add("arrayeditbutton");
+
+
+}
 
 </script>
 <style>
-#mymap{
-    border:solid;
-    position:relative;
+input{
+    font-family:courier;
 }
-#mymap div{
+#hammerxy{
+    display:none;
+    z-index:-1;
+}
+#arrayeditbar{
+    position:absolute;
+    right:0px;
+    bottom:0px;
+    top:0px;
+    width:15%;
     border:solid;
+    overflow:scroll;
+}
+#arraynametable{
+    font-family:courier;
+}
+#linkeditbar{
+    display:none;
 }
 </style>
 </body>
