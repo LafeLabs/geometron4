@@ -212,6 +212,15 @@ document.getElementById("closebutton").onclick = function() {
     document.getElementById("hammerxy").style.zIndex = -100;
 }
 
+document.getElementById("savebutton").onclick = function() {
+    
+    mainmapbox.map.array[linkindex].x = parseInt(mainmapbox.linkArray[linkindex].style.left.substring(0,mainmapbox.linkArray[linkindex].style.left.length-2))/mainmapbox.w;
+    mainmapbox.map.array[linkindex].y = parseInt(mainmapbox.linkArray[linkindex].style.top.substring(0,mainmapbox.linkArray[linkindex].style.top.length-2))/mainmapbox.w;
+    mainmapbox.map.array[linkindex].w = parseInt(mainmapbox.linkArray[linkindex].style.width.substring(0,mainmapbox.linkArray[linkindex].style.width.length-2))/mainmapbox.w;
+    mainmapbox.map.array[linkindex].angle = parseInt(mainmapbox.linkArray[linkindex].style.transform.substring(7,mainmapbox.linkArray[linkindex].style.transform.length - 4));
+
+}
+
 document.getElementById("nextbutton").onclick = function() {
     
     linkindex++;
@@ -258,9 +267,15 @@ document.getElementById("deletebutton").onclick = function() {
     }
     mainmap.array = localArray;
     mainmapbox.draw(mainmapbox);
-    document.getElementById("textinput").value = mainmap.array[linkindex].text;   
-    document.getElementById("urlinput").value = mainmap.array[linkindex].url;   
-    document.getElementById("hrefinput").value = mainmap.array[linkindex].href;   
+    linkindex--;
+    if(linkindex < 0){
+        linkindex = 0;
+    }
+    if(mainmap.array.length > 0){
+        document.getElementById("textinput").value = mainmap.array[linkindex].text;   
+        document.getElementById("urlinput").value = mainmap.array[linkindex].url;   
+        document.getElementById("hrefinput").value = mainmap.array[linkindex].href;   
+    }
 
 }
 
@@ -329,7 +344,9 @@ mc.get('pan').set({ direction: Hammer.DIRECTION_ALL });
 mc.on("panleft panright panup pandown tap press rotate", function(ev) {
     mainmapbox.linkArray[linkindex].style.left = (ev.deltaX + mainmapbox.map.array[linkindex].x*mainmapbox.w).toString() +  "px";
     mainmapbox.linkArray[linkindex].style.top = (ev.deltaY + mainmapbox.map.array[linkindex].y*mainmapbox.w).toString() +  "px";
+
 });    
+
 
 mczoom = new Hammer(document.getElementById("sliderbar"));
 mczoom.get('pan').set({ direction: Hammer.DIRECTION_ALL });
