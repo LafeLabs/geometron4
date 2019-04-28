@@ -101,21 +101,32 @@ linkFeed = [];
         <!--
         link edit bar only opens when a LINK in a map array is being edited, based on clicking the "edit" button in a row in arrayeditbar
         to close, press the close button
-        -->
-            <div id = "savebutton" class = "button">SAVE</div>
-            <div id = "closebutton" class = "button">CLOSE</div>
+    
+         <div id = "savebutton" class = "button"></div>
+                     <div id = "closebutton" class = "button">CLOSE</div>
             <div id = "newbutton" class = "button">NEW</div>
             <div id = "nextbutton" class = "button">NEXT</div>
+            
             <div id = "prevbutton" class = "button">PREV</div>
-            <div id = "deletebutton" class = "button">DELETE</div>
-            <div id = "moveupbutton" class= "button">UP</div>
+            
+        <div id = "deletebutton" class = "button">DELETE</div>
+        
+           <div id = "moveupbutton" class= "button">UP</div>
             <div id = "movedownbutton" class= "button">DOWN</div>
-            <select id="typeselect">
-                <option value="text">text</option>
-                <option value="image">image</option>
-                <option value="map">map</option>
-                <option value="scroll">scroll</option>
-            </select> 
+    -->
+            <img id = "savebutton" src = "icons/savebutton.svg" class = "button" style = "width:50px"/>
+            <img id = "closebutton" src = "icons/closebutton.svg" class = "button" style = "width:50px"/>
+
+            <img id = "newbutton" src = "icons/newbutton.svg" class = "button" style = "width:50px"/>
+            <img id = "deletebutton" src = "icons/deletebutton.svg" class = "button" style = "width:50px"/>
+
+            <img id = "prevbutton" src = "icons/prevbutton.svg" class = "button" style = "width:50px"/>
+            <img id = "nextbutton" src = "icons/nextbutton.svg" class = "button" style = "width:50px"/>
+
+            <img id = "movedownbutton" src = "icons/movedownbutton.svg" class = "button" style = "width:50px"/>
+            <img id = "moveupbutton" src = "icons/moveupbutton.svg" class = "button" style = "width:50px"/>
+
+
 <!-- add type pulldown menu here
     also up and down move, build a control panel that is sized properly for half the space in the margin
     all these things need symbols
@@ -136,7 +147,14 @@ linkFeed = [];
                 <tr><td>text:</td><td><input id = "textinput"/></td></tr>
                 <tr><td>url:</td><td><input id = "urlinput"/></td></tr>
                 <tr><td>href:</td><td><input id = "hrefinput"/></td></tr>
-
+                <tr><td>type:</td><td>
+                    <select id="typeselect">
+                        <option value="text">text</option>
+                        <option value="image">image</option>
+                        <option value="map">map</option>
+                        <option value="scroll">scroll</option>
+                    </select>                 
+                </td></tr>
             </table>       
             <table id = "sliderbarcontroltable">
             <!--
@@ -513,7 +531,9 @@ input,table{
     top:50%;
     bottom:0px;
     z-index:1;
-    background-color:beige;
+    border-right:solid;
+    border-top:solid;
+    border-width:0.2px;
 }
 #sliderbar2{
     position:absolute;
@@ -522,7 +542,9 @@ input,table{
     top:50%;
     bottom:0px;
     z-index:1;
-    background-color:antiquewhite;
+    border-top:solid;
+    border-width:0.2px;
+
 }
 #navbutton{
     display:block;
