@@ -35,6 +35,7 @@ function MapBox(w,h,map,div) {
                 newa.appendChild(newimg);
                 
                 newimg.src = MapBox.map.array[index].url;
+                newimg.alt = MapBox.map.array[index].text;
                 newimg.onload = function(){
                     this.parentElement.style.height = this.height + "px";
                 }

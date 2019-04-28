@@ -97,6 +97,12 @@ linkFeed = [];
             <div id = "deletebutton" class = "button">DELETE</div>
             <div id = "moveupbutton" class= "button">UP</div>
             <div id = "movedownbutton" class= "button">DOWN</div>
+            <select id="typeselect">
+                    <option value="text">text</option>
+                    <option value="image">image</option>
+                    <option value="map">map</option>
+                    <option value="scroll">scroll</option>
+            </select> 
 <!-- add type pulldown menu here
     also up and down move, build a control panel that is sized properly for half the space in the margin
     all these things need symbols
@@ -230,6 +236,7 @@ document.getElementById("nextbutton").onclick = function() {
     document.getElementById("textinput").value = mainmap.array[linkindex].text;   
     document.getElementById("urlinput").value = mainmap.array[linkindex].url;   
     document.getElementById("hrefinput").value = mainmap.array[linkindex].href;   
+    document.getElementById("typeselect").value = mainmap.array[linkindex].type;
 
 }
 
@@ -242,17 +249,20 @@ document.getElementById("prevbutton").onclick = function() {
     document.getElementById("textinput").value = mainmap.array[linkindex].text;   
     document.getElementById("urlinput").value = mainmap.array[linkindex].url;   
     document.getElementById("hrefinput").value = mainmap.array[linkindex].href;   
+    document.getElementById("typeselect").value = mainmap.array[linkindex].type;
 
 }
 
 document.getElementById("newbutton").onclick = function() {
 
-var newLink = new MapLink(0,0,0.1,1,0,"","","","text");
-mainmap.array.push(newLink);
-linkindex = mainmap.array.length - 1;
-document.getElementById("textinput").value = mainmap.array[linkindex].text;   
-document.getElementById("urlinput").value = mainmap.array[linkindex].url;   
-document.getElementById("hrefinput").value = mainmap.array[linkindex].href;   
+    var newLink = new MapLink(0,0,0.1,1,0,"","","","text");
+    mainmap.array.push(newLink);
+    linkindex = mainmap.array.length - 1;
+    document.getElementById("textinput").value = mainmap.array[linkindex].text;   
+    document.getElementById("urlinput").value = mainmap.array[linkindex].url;   
+    document.getElementById("hrefinput").value = mainmap.array[linkindex].href;   
+    document.getElementById("typeselect").value = mainmap.array[linkindex].type;
+
 
 }
 
@@ -275,6 +285,8 @@ document.getElementById("deletebutton").onclick = function() {
         document.getElementById("textinput").value = mainmap.array[linkindex].text;   
         document.getElementById("urlinput").value = mainmap.array[linkindex].url;   
         document.getElementById("hrefinput").value = mainmap.array[linkindex].href;   
+        document.getElementById("typeselect").value = mainmap.array[linkindex].type;
+
     }
 
 }
@@ -372,6 +384,14 @@ mcrotate.on("panleft panright panup pandown tap press rotate", function(ev) {
     }
 });    
 
+
+document.getElementById("typeselect").onchange = function() {
+
+    mainmap.array[linkindex].type = this.value;
+    mainmapbox.draw(mainmapbox);
+
+}
+document.getElementById("typeselect").value = mainmap.array[linkindex].type;
 </script>
 <style>
 body{
