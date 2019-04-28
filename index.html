@@ -60,91 +60,168 @@ var mapdata = {
     <div id = "hammerxy">
         <!--this covers the map exactly, sits at higher z index, and is turned off when NOT editing xy-->
     </div>
-    <div id = "arrayeditbar">
+    <div id = "margin">
+        <div id = "arrayeditbar">
+            <!--
+                top of array edit bar is "name: [input] "
+                each row has "edit", "up", "down","delete", the actual element, forced into the size with overflow hidden
+                when edit is clicked the linkeditbar opens and this closes
+            -->    
+            <table id = "arraynametable">
+                <tr><td>Name:</td></tr>
+                <tr><td><input id = "arraynameinput"/></td></tr>
+            </table>
+        </div>            
+        <div id = "linkeditbar">
         <!--
-            top of array edit bar is "name: [input] "
-            each row has "edit", "up", "down","delete", the actual element, forced into the size with overflow hidden
-            when edit is clicked the linkeditbar opens and this closes
-        -->    
-        <table id = "arraynametable">
-            <tr><td>Name:</td></tr>
-            <tr><td><input id = "arraynameinput"/></td></tr>
-        </table>
-    </div>
-    <div id = "linkeditbar">
-    <!--
-    link edit bar only opens when a LINK in a map array is being edited, based on clicking the "edit" button in a row in arrayeditbar
-    to close, press the close button
-    -->
-        <div id = "savebutton">SAVE</div>
-        <div id = "closebutton">CLOSE</div>
-        <table id = "linkedittable">
-        <!--
-        table with: text, url, href, pulldown menu for type, x,y,angle,w,h,
+        link edit bar only opens when a LINK in a map array is being edited, based on clicking the "edit" button in a row in arrayeditbar
+        to close, press the close button
         -->
-        </table>       
-        <table id = "sliderbarcontroltable">
-        <!--
-        select what is being controlled: angle, w, h, 
-        -->
-        </table>
-        <div id = "sliderbar">
-        <!--Vertical slider bar on far right side of screen, only turns on in edit mode-->
+            <div id = "savebutton" class = "button">SAVE</div>
+            <div id = "closebutton" class = "button">CLOSE</div>
+            <table id = "linkedittable">
+            <!--
+            table with: text, url, href, pulldown menu for type, x,y,angle,w,h,
+            -->
+            </table>       
+            <table id = "sliderbarcontroltable">
+            <!--
+            select what is being controlled: angle, w, h, 
+            -->
+            </table>
+            <div id = "sliderbar">
+            <!--Vertical slider bar on far right side of screen, only turns on in edit mode-->
+            </div>
         </div>
+            
+
     </div>
+     
+
+
 <script>
 
+landscape = false;
 
-var newmap = new Map("mynewmap");
-var newbox = new MapBox(500,500,newmap,document.getElementById("mainmap"));
-
-newmap.array = mapdata.array;
-newbox.draw(newbox);
-
-document.getElementById("arraynameinput").value = newmap.name;
-
-for(var index = 0;index < newmap.array.length; index++) {
-    var newp = document.createElement("P");
-    var newt = document.createElement("TABLE");
-    var newtr = document.createAttribute("TR");
-    newp.appendChild(newt);
-    newt.appendChild(newtr);
-
-    var edittd = document.createElement("TD");//edit link
-    edittd.classList.add("arrayeditbutton");
-    var backtd = document.createElement("TD");//move link back
-    backtd.classList.add("arrayeditbutton");
-    var fwdtd = document.createElement("TD");//move link forward
-    fwdtd.classList.add("arrayeditbutton");
-    var deletetd = document.createElement("TD");//delete link
-    deletetd.classList.add("arrayeditbutton");
-
-
+if(innerWidth > innerHeight){
+    mapWidth = innerHeight;
+    document.getElementById("margin").style.width = (innerWidth - mapWidth).toString() + "px";
+    document.getElementById("margin").style.height = (innerHeight).toString() + "px";
+    marginWidth = innerWidth - mapWidth;
+    landscape = true;
+}
+else{
+    mapWidth = innerWidth;
+    document.getElementById("margin").style.height = (innerHeight - mapWidth).toString() + "px";
+    document.getElementById("margin").style.width = (innerHeight).toString() + "px";
+    marginWidth = mapWidth - innerWidth;
 }
 
+
+mainmap = new Map("main map");
+mainmapbox = new MapBox(mapWidth,mapWidth,mainmap,document.getElementById("mainmap"));
+
+mainmap.array = mapdata.array;
+mainmapbox.draw(mainmapbox);
+
+document.getElementById("arraynameinput").value = mainmap.name;
+
+linkindex = 0;
+
+for(var index = 0;index < mainmap.array.length; index++) {
+    var newdiv = document.createElement("DIV");
+    document.getElementById("arrayeditbar").appendChild(newdiv);
+    if(mainmap.array[index].type == "image") {
+        var newimg = document.createElement("IMG");
+        newimg.src = mainmap.array[index].url;
+        newdiv.appendChild(newimg);
+        newimg.width = marginWidth*0.5;
+        newimg.style.display = "block";
+        newimg.style.margin = "auto";
+    }
+    if(mainmap.array[index].type == "text") {
+        newdiv.innerHTML = mainmap.array[index].text;
+    }
+    newdiv.classList.add("arraylink");
+    newdiv.classList.add("button");
+    newdiv.style.border = "solid";
+    newdiv.id = "link" + index.toString();
+    newdiv.onclick = function(){
+        document.getElementById("arrayeditbar").style.display = "none";
+        document.getElementById("linkeditbar").style.display = "block";
+        linkindex = parseInt(this.id.substring(4));
+        
+    }
+}
+
+document.getElementById("closebutton").onclick = function() {
+    document.getElementById("arrayeditbar").style.display = "block";
+    document.getElementById("linkeditbar").style.display = "none";
+}
 </script>
 <style>
+body{
+    overflow:hidden;
+}
 input{
     font-family:courier;
 }
+
+#mainmap{
+    position:absolute;
+    left:0px;
+    top:0px;
+    overflow:hidden;
+}
 #hammerxy{
+    position:absolute;
+    left:0px;
+    top:0px;
     display:none;
-    z-index:-1;
+    z-index:-100;
+}
+#margin{
+    position:absolute;
+    right:0px;
+    bottom:0px;
+    border:solid;
+    border-color:red;
+    border-width:0.2px;
 }
 #arrayeditbar{
     position:absolute;
     right:0px;
     bottom:0px;
     top:0px;
-    width:15%;
-    border:solid;
+    left:0px;
     overflow:scroll;
-}
-#arraynametable{
     font-family:courier;
+}
+.arraylink{
+    border:solid;
+    border-width:0.1px;
+    border-radius:10px;
+    margin-top:15px;
+}
+.button{
+    cursor:pointer;
+}
+.button:hover{
+    background-color:#50ff50;
+}
+.button:active{
+    background-color:yellow;
 }
 #linkeditbar{
     display:none;
+    position:absolute;
+    right:0px;
+    bottom:0px;
+    top:0px;
+    left:0px;
+    overflow:scroll;
+    font-family:courier;
+
 }
 </style>
 </body>
