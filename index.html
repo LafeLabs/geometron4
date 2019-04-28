@@ -95,6 +95,18 @@ linkFeed = [];
             <div id = "nextbutton" class = "button">NEXT</div>
             <div id = "prevbutton" class = "button">PREV</div>
             <div id = "deletebutton" class = "button">DELETE</div>
+<!-- add type pulldown menu here
+    also up and down move, build a control panel that is sized properly for half the space in the margin
+    all these things need symbols
+    integrate the feeds
+    symbol must feed the image feed
+    add uploader to put up local images on feed
+    add scroll
+    make the text boxes have real format
+    
+    nav bar if it exists would go to:
+        create a new node, scroll, symbol, upload image, feeds(all in one)
+-->
 
             <table id = "linkedittable">
             <!--
@@ -222,14 +234,34 @@ document.getElementById("prevbutton").onclick = function() {
 
 }
 
+document.getElementById("deletebutton").onclick = function() {
+
+    var localArray = [];
+    for(var index = 0;index < mainmap.array.length;index++){
+        if(index != linkindex) {
+            localArray.push(mainmap.array[index]);
+        }
+    }
+    mainmap.array = localArray;
+    mainmapbox.draw(mainmapbox);
+    document.getElementById("textinput").value = mainmap.array[linkindex].text;   
+    document.getElementById("urlinput").value = mainmap.array[linkindex].url;   
+    document.getElementById("hrefinput").value = mainmap.array[linkindex].href;   
+
+}
+
 document.getElementById("textinput").onchange = function() {
     mainmap.array[linkindex].text = this.value;
+    textFeed.push(this.value);
     mainmapbox.draw(mainmapbox);
 
     //also need to update the array editor
 }
 document.getElementById("urlinput").onchange = function() {
     mainmap.array[linkindex].url = this.value;
+    if(mainmap.array[linkindex].type == "image"){
+        imageFeed.push(this.value);
+    }
     mainmapbox.draw(mainmapbox);
     //also need to update the array editor
 }
