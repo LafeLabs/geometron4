@@ -82,6 +82,10 @@ var mapdata = {
         -->
             <div id = "savebutton" class = "button">SAVE</div>
             <div id = "closebutton" class = "button">CLOSE</div>
+            <div id = "newbutton" class = "button">NEW</div>
+            <div id = "nextbutton" class = "button">NEXT</div>
+            <div id = "prevbutton" class = "button">PREV</div>
+
             <table id = "linkedittable">
             <!--
             table with: text, url, href, pulldown menu for type, x,y,angle,w,h,
@@ -173,21 +177,27 @@ document.getElementById("closebutton").onclick = function() {
 }
 
 document.getElementById("textinput").onchange = function() {
-    mainmap.array[linkindex].text = document.getElementById("textinput").value;
+    mainmap.array[linkindex].text = this.value;
+    mainmapbox.draw(mainmapbox);
+}
+document.getElementById("urlinput").onchange = function() {
+    mainmap.array[linkindex].url = this.value;
     mainmapbox.draw(mainmapbox);
 }
 
 mc = new Hammer(document.getElementById("hammerxy"));
-mc.get('pan').set({ direction: Hammer.DIRECTION_ALL });
 mc.on("panleft panright panup pandown tap press rotate", function(ev) {
     mainmapbox.linkArray[linkindex].style.left = (ev.deltaX + mainmapbox.map.array[linkindex].x*mainmapbox.w).toString() +  "px";
     mainmapbox.linkArray[linkindex].style.top = (ev.deltaY + mainmapbox.map.array[linkindex].y*mainmapbox.w).toString() +  "px";
+});    
 
-    console.log(ev.angle);
-//    boxes[mapIndex].style.left = (x*W + ev.deltaX).toString() + "px";
-  //  boxes[mapIndex].style.top = (y*W + ev.deltaY).toString() + "px";
+mcslide = new Hammer(document.getElementById("sliderbar"));
+mcslide.on("panleft panright panup pandown tap press rotate", function(ev) {
+
+    mainmapbox.linkArray[linkindex].style.width = (Math.abs(mainmapbox.map.array[linkindex].w*mainmapbox.w - 2*ev.deltaY)).toString() +  "px";
 
 });    
+
 
 </script>
 <style>
@@ -236,6 +246,7 @@ input,table{
 }
 .button{
     cursor:pointer;
+    margin-bottom:1em;
 }
 .button:hover{
     background-color:#50ff50;
@@ -252,7 +263,15 @@ input,table{
     left:0px;
     overflow:scroll;
     font-family:courier;
-
+}
+#sliderbar{
+    position:absolute;
+    left:0px;
+    right:50%;
+    top:50%;
+    bottom:0px;
+    z-index:1;
+    background-color:beige;
 }
 </style>
 </body>
