@@ -73,13 +73,26 @@ linkFeed = [];
         <!--this covers the map exactly, sits at higher z index, and is turned off when NOT editing xy-->
     </div>
     <div id = "margin">
+        <div id = "navigatorbar">
+            <p class = "button" id = "editmapbutton">EDIT MAP</p>
+            <p>SCROLL</p>
+            <p>SYMBOL</p>
+            <p>BRANCH DOWN</p>
+            <p>UP</p>
+            <p>TEXT FEED</p>
+            <p>IMAGE FEED</p>
+            <p>IMPORT</p>
+            <p>SCROLL OF SUB BRANCHES</p>            
+        </div>
         <div id = "arrayeditbar">
             <!--
                 top of array edit bar is "name: [input] "
                 each row has "edit", "up", "down","delete", the actual element, forced into the size with overflow hidden
                 when edit is clicked the linkeditbar opens and this closes
             -->    
+            <div class = "button" id = "navbutton">NAVIGATOR</div>
             <table id = "arraynametable">
+        
                 <tr><td>Name:</td></tr>
                 <tr><td><input id = "arraynameinput"/></td></tr>
             </table>
@@ -98,10 +111,10 @@ linkFeed = [];
             <div id = "moveupbutton" class= "button">UP</div>
             <div id = "movedownbutton" class= "button">DOWN</div>
             <select id="typeselect">
-                    <option value="text">text</option>
-                    <option value="image">image</option>
-                    <option value="map">map</option>
-                    <option value="scroll">scroll</option>
+                <option value="text">text</option>
+                <option value="image">image</option>
+                <option value="map">map</option>
+                <option value="scroll">scroll</option>
             </select> 
 <!-- add type pulldown menu here
     also up and down move, build a control panel that is sized properly for half the space in the margin
@@ -131,10 +144,12 @@ linkFeed = [];
             -->
             </table>
             <div id = "sliderbar">
-            <!--Vertical slider bar on far right side of screen, only turns on in edit mode-->
+            <!--slider bar for scale-->
+            <img id = "sliderimage" src = "icons/scaleslider.svg"/>
             </div>
             <div id = "sliderbar2">
-                    <!--Vertical slider bar on far right side of screen, only turns on in edit mode-->
+                <!--slider bar for rotate-->
+                <img id = "sliderimage" src = "icons/rotateslider.svg"/>
             </div>
         </div>
             
@@ -250,7 +265,7 @@ document.getElementById("nextbutton").onclick = function() {
 }
 
 document.getElementById("prevbutton").onclick = function() {
-    mainmapbox.linkArray[linkindex].style.border = "solid";
+    mainmapbox.linkArray[linkindex].style.border = "none";
     linkindex--;
     if(linkindex < 0){
         linkindex = mainmap.array.length - 1;
@@ -413,6 +428,15 @@ document.getElementById("typeselect").onchange = function() {
 
 }
 document.getElementById("typeselect").value = mainmap.array[linkindex].type;
+
+document.getElementById("navbutton").onclick = function(){
+    document.getElementById("arrayeditbar").style.display = "none";
+    document.getElementById("navigatorbar").style.display = "block";
+}
+document.getElementById("editmapbutton").onclick = function() {
+    document.getElementById("arrayeditbar").style.display = "block";
+    document.getElementById("navigatorbar").style.display = "none";
+}
 </script>
 <style>
 body{
@@ -500,7 +524,32 @@ input,table{
     z-index:1;
     background-color:antiquewhite;
 }
-
+#navbutton{
+    display:block;
+}
+#navigatorbar{
+    display:none;
+}
+#sliderimage{
+    position:absolute;
+    left:0px;
+    right:0px;
+    top:0px;
+    bottom:0px;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
+#rotateimage{
+    position:absolute;
+    left:0px;
+    right:0px;
+    top:0px;
+    bottom:0px;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
 </style>
 </body>
 </html>
