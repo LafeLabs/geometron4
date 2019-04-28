@@ -85,6 +85,7 @@ var mapdata = {
             <div id = "newbutton" class = "button">NEW</div>
             <div id = "nextbutton" class = "button">NEXT</div>
             <div id = "prevbutton" class = "button">PREV</div>
+            <div id = "deletebutton" class = "button">DELETE</div>
 
             <table id = "linkedittable">
             <!--
@@ -103,9 +104,11 @@ var mapdata = {
             <div id = "sliderbar">
             <!--Vertical slider bar on far right side of screen, only turns on in edit mode-->
             </div>
+            <div id = "sliderbar2">
+                    <!--Vertical slider bar on far right side of screen, only turns on in edit mode-->
+            </div>
         </div>
             
-
     </div>
      
 
@@ -179,25 +182,41 @@ document.getElementById("closebutton").onclick = function() {
 document.getElementById("textinput").onchange = function() {
     mainmap.array[linkindex].text = this.value;
     mainmapbox.draw(mainmapbox);
+
+    //also need to update the array editor
 }
 document.getElementById("urlinput").onchange = function() {
     mainmap.array[linkindex].url = this.value;
     mainmapbox.draw(mainmapbox);
+    //also need to update the array editor
 }
 
 mc = new Hammer(document.getElementById("hammerxy"));
+mc.get('pan').set({ direction: Hammer.DIRECTION_ALL });
 mc.on("panleft panright panup pandown tap press rotate", function(ev) {
     mainmapbox.linkArray[linkindex].style.left = (ev.deltaX + mainmapbox.map.array[linkindex].x*mainmapbox.w).toString() +  "px";
     mainmapbox.linkArray[linkindex].style.top = (ev.deltaY + mainmapbox.map.array[linkindex].y*mainmapbox.w).toString() +  "px";
 });    
 
-mcslide = new Hammer(document.getElementById("sliderbar"));
-mcslide.on("panleft panright panup pandown tap press rotate", function(ev) {
-
-    mainmapbox.linkArray[linkindex].style.width = (Math.abs(mainmapbox.map.array[linkindex].w*mainmapbox.w - 2*ev.deltaY)).toString() +  "px";
+mczoom = new Hammer(document.getElementById("sliderbar"));
+mczoom.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+mczoom.on("panleft panright panup pandown tap press rotate", function(ev) {
+    if(landscape){
+        mainmapbox.linkArray[linkindex].style.width = (Math.abs(mainmapbox.map.array[linkindex].w*mainmapbox.w - 2*ev.deltaY)).toString() +  "px";
+    }
+    else{
+        mainmapbox.linkArray[linkindex].style.width = (Math.abs(mainmapbox.map.array[linkindex].w*mainmapbox.w - 2*ev.deltaX)).toString() +  "px";
+    }
 
 });    
 
+mcrotate = new Hammer(document.getElementById("sliderbar2"));
+mcrotate.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+mcrotate.on("panleft panright panup pandown tap press rotate", function(ev) {
+
+    mainmapbox.linkArray[linkindex].style.transform = "rotate(" + (mainmapbox.map.array[linkindex].angle + ev.deltaY*Math.PI/10).toString() + "deg)";
+
+});    
 
 </script>
 <style>
@@ -273,6 +292,16 @@ input,table{
     z-index:1;
     background-color:beige;
 }
+#sliderbar2{
+    position:absolute;
+    right:0px;
+    left:50%;
+    top:50%;
+    bottom:0px;
+    z-index:1;
+    background-color:antiquewhite;
+}
+
 </style>
 </body>
 </html>
