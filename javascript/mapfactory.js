@@ -43,6 +43,7 @@ function MapBox(w,h,map,div) {
             if(MapBox.map.array[index].type == "text"){
                 //read this https://manishearth.github.io/blog/2017/08/10/font-size-an-unexpectedly-complex-css-property/
                 newa.innerHTML = MapBox.map.array[index].text;
+                newa.style.fontSize = (MapBox.map.array[index].w*MapBox.w/MapBox.map.array[index].text.length).toString() + "px"; 
             }
             MapBox.linkArray.push(newa);
         }

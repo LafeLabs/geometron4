@@ -37,7 +37,7 @@ var mapdata = {
             "w": 0.15,
             "h": 1,
             "angle": 0,
-            "text": "<span style =\"color:red\">BOTTOM</span>",
+            "text": "BOTTOM",
             "href": "",
             "url": "",
             "type": "text"
@@ -202,6 +202,10 @@ for(var index = 0;index < mainmap.array.length; index++) {
         document.getElementById("urlinput").value = mainmap.array[linkindex].url;   
         document.getElementById("hrefinput").value = mainmap.array[linkindex].href;   
         document.getElementById("hammerxy").style.zIndex = 100;
+
+        mainmapbox.linkArray[linkindex].style.border = "solid";
+        mainmapbox.linkArray[linkindex].style.borderWidth = "0.1px";
+
     }
     if(mainmap.array[index].href.length > 0){
         linkFeed.push(mainmap.array[index].href);
@@ -216,6 +220,8 @@ document.getElementById("closebutton").onclick = function() {
     document.getElementById("arrayeditbar").style.display = "block";
     document.getElementById("linkeditbar").style.display = "none";
     document.getElementById("hammerxy").style.zIndex = -100;
+    mainmapbox.linkArray[linkindex].style.border = "none";
+
 }
 
 document.getElementById("savebutton").onclick = function() {
@@ -228,7 +234,8 @@ document.getElementById("savebutton").onclick = function() {
 }
 
 document.getElementById("nextbutton").onclick = function() {
-    
+    mainmapbox.linkArray[linkindex].style.border = "none";
+
     linkindex++;
     if(linkindex > mainmap.array.length - 1){
         linkindex = 0;
@@ -237,11 +244,13 @@ document.getElementById("nextbutton").onclick = function() {
     document.getElementById("urlinput").value = mainmap.array[linkindex].url;   
     document.getElementById("hrefinput").value = mainmap.array[linkindex].href;   
     document.getElementById("typeselect").value = mainmap.array[linkindex].type;
+    mainmapbox.linkArray[linkindex].style.border = "solid";
+    mainmapbox.linkArray[linkindex].style.borderWidth = "0.1px";
 
 }
 
 document.getElementById("prevbutton").onclick = function() {
-    
+    mainmapbox.linkArray[linkindex].style.border = "solid";
     linkindex--;
     if(linkindex < 0){
         linkindex = mainmap.array.length - 1;
@@ -250,6 +259,8 @@ document.getElementById("prevbutton").onclick = function() {
     document.getElementById("urlinput").value = mainmap.array[linkindex].url;   
     document.getElementById("hrefinput").value = mainmap.array[linkindex].href;   
     document.getElementById("typeselect").value = mainmap.array[linkindex].type;
+    mainmapbox.linkArray[linkindex].style.border = "solid";
+    mainmapbox.linkArray[linkindex].style.borderWidth = "0.1px";
 
 }
 
@@ -342,11 +353,18 @@ document.getElementById("textinput").onchange = function() {
 
     //also need to update the array editor
 }
+
 document.getElementById("urlinput").onchange = function() {
     mainmap.array[linkindex].url = this.value;
     if(mainmap.array[linkindex].type == "image"){
         imageFeed.push(this.value);
     }
+    mainmapbox.draw(mainmapbox);
+    //also need to update the array editor
+}
+
+document.getElementById("hrefinput").onchange = function() {
+    mainmap.array[linkindex].href = this.value;
     mainmapbox.draw(mainmapbox);
     //also need to update the array editor
 }
@@ -371,6 +389,9 @@ mczoom.on("panleft panright panup pandown tap press rotate", function(ev) {
         mainmapbox.linkArray[linkindex].style.width = (Math.abs(mainmapbox.map.array[linkindex].w*mainmapbox.w - 2*ev.deltaX)).toString() +  "px";
     }
 
+    if(mainmap.array[linkindex].type == "text") {
+        mainmapbox.linkArray[linkindex].style.fontSize = (Math.abs(mainmapbox.map.array[linkindex].w*mainmapbox.w - 2*ev.deltaX)/mainmapbox.map.array[linkindex].text.length).toString() + "px"; 
+    }
 });    
 
 mcrotate = new Hammer(document.getElementById("sliderbar2"));
@@ -406,6 +427,10 @@ input,table{
     left:0px;
     top:0px;
     overflow:hidden;
+}
+#mainmap a{
+    font-family:Helvetica;
+    border-width:0.1px;
 }
 #hammerxy{
     position:absolute;
