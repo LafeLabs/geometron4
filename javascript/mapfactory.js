@@ -9,9 +9,11 @@ function MapBox(w,h,map,div) {
     this.div.style.width = this.w + "px"; //set width of div
     this.div.style.height = this.h + "px";//set height of div
 
+    this.linkArray = [];
 
     this.draw = function(MapBox) {
         MapBox.div.innerHTML = "";
+        MapBox.linkArray = [];
         for(var index = 0;index < MapBox.map.array.length;index++){
             var newa = document.createElement("A");
             newa.style.position = "absolute";
@@ -40,6 +42,7 @@ function MapBox(w,h,map,div) {
             if(MapBox.map.array[index].type == "text"){
                 newa.innerHTML = MapBox.map.array[index].text;
             }
+            MapBox.linkArray.push(newa);
         }
     }
 
