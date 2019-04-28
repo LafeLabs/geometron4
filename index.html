@@ -95,6 +95,8 @@ linkFeed = [];
             <div id = "nextbutton" class = "button">NEXT</div>
             <div id = "prevbutton" class = "button">PREV</div>
             <div id = "deletebutton" class = "button">DELETE</div>
+            <div id = "moveupbutton" class= "button">UP</div>
+            <div id = "movedownbutton" class= "button">DOWN</div>
 <!-- add type pulldown menu here
     also up and down move, build a control panel that is sized properly for half the space in the margin
     all these things need symbols
@@ -234,6 +236,18 @@ document.getElementById("prevbutton").onclick = function() {
 
 }
 
+document.getElementById("newbutton").onclick = function() {
+
+var newLink = new MapLink(0,0,0.1,1,0,"","","","text");
+mainmap.array.push(newLink);
+linkindex = mainmap.array.length - 1;
+document.getElementById("textinput").value = mainmap.array[linkindex].text;   
+document.getElementById("urlinput").value = mainmap.array[linkindex].url;   
+document.getElementById("hrefinput").value = mainmap.array[linkindex].href;   
+
+}
+
+
 document.getElementById("deletebutton").onclick = function() {
 
     var localArray = [];
@@ -247,6 +261,50 @@ document.getElementById("deletebutton").onclick = function() {
     document.getElementById("textinput").value = mainmap.array[linkindex].text;   
     document.getElementById("urlinput").value = mainmap.array[linkindex].url;   
     document.getElementById("hrefinput").value = mainmap.array[linkindex].href;   
+
+}
+
+document.getElementById("moveupbutton").onclick  = function() {
+
+    if(linkindex < mainmap.array.length - 1) {
+        var localArray = [];
+        for(var index = 0;index < mainmap.array.length;index++){
+            if(index < linkindex || index > linkindex + 1) {
+                localArray.push(mainmap.array[index]);
+            }
+            if(index == linkindex) {
+                localArray.push(mainmap.array[linkindex + 1]);
+            }
+            if(index == linkindex + 1) {
+                localArray.push(mainmap.array[linkindex]);
+            }
+        }
+        mainmap.array = localArray;
+        linkindex++;
+        mainmapbox.draw(mainmapbox);
+    }
+
+}
+document.getElementById("movedownbutton").onclick  = function() {
+
+    if(linkindex > 0) {
+        var localArray = [];
+        for(var index = 0;index < mainmap.array.length;index++){
+            if(index < linkindex - 1 || index > linkindex) {
+                localArray.push(mainmap.array[index]);
+            }
+            if(index == linkindex - 1) {
+                localArray.push(mainmap.array[linkindex]);
+            }
+            if(index == linkindex) {
+                localArray.push(mainmap.array[linkindex - 1]);
+            }
+        }
+        mainmap.array = localArray;
+        linkindex--;
+        mainmapbox.draw(mainmapbox);
+    }
+
 
 }
 
