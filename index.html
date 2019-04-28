@@ -55,6 +55,15 @@ var mapdata = {
         }
     ]
 }
+
+textFeed = [
+    "text"
+];
+
+imageFeed = [];
+
+linkFeed = [];
+
 </script>
 </head>
 <body>    
@@ -154,6 +163,9 @@ for(var index = 0;index < mainmap.array.length; index++) {
         newimg.width = marginWidth*0.5;
         newimg.style.display = "block";
         newimg.style.margin = "auto";
+        if(mainmap.array[index].url.length > 0){
+            imageFeed.push(mainmap.array[index].url);
+        }   
     }
     if(mainmap.array[index].type == "text") {
         newdiv.innerHTML = mainmap.array[index].text;
@@ -171,6 +183,13 @@ for(var index = 0;index < mainmap.array.length; index++) {
         document.getElementById("hrefinput").value = mainmap.array[linkindex].href;   
         document.getElementById("hammerxy").style.zIndex = 100;
     }
+    if(mainmap.array[index].href.length > 0){
+        linkFeed.push(mainmap.array[index].href);
+    }
+    if(mainmap.array[index].text.length > 0){
+        textFeed.push(mainmap.array[index].text);
+    }
+
 }
 
 document.getElementById("closebutton").onclick = function() {
@@ -201,6 +220,7 @@ mc.on("panleft panright panup pandown tap press rotate", function(ev) {
 mczoom = new Hammer(document.getElementById("sliderbar"));
 mczoom.get('pan').set({ direction: Hammer.DIRECTION_ALL });
 mczoom.on("panleft panright panup pandown tap press rotate", function(ev) {
+
     if(landscape){
         mainmapbox.linkArray[linkindex].style.width = (Math.abs(mainmapbox.map.array[linkindex].w*mainmapbox.w - 2*ev.deltaY)).toString() +  "px";
     }
@@ -213,9 +233,12 @@ mczoom.on("panleft panright panup pandown tap press rotate", function(ev) {
 mcrotate = new Hammer(document.getElementById("sliderbar2"));
 mcrotate.get('pan').set({ direction: Hammer.DIRECTION_ALL });
 mcrotate.on("panleft panright panup pandown tap press rotate", function(ev) {
-
-    mainmapbox.linkArray[linkindex].style.transform = "rotate(" + (mainmapbox.map.array[linkindex].angle + ev.deltaY*Math.PI/10).toString() + "deg)";
-
+    if(landscape) {
+        mainmapbox.linkArray[linkindex].style.transform = "rotate(" + (mainmapbox.map.array[linkindex].angle + ev.deltaY*Math.PI/5).toString() + "deg)";
+    }
+    else{
+        mainmapbox.linkArray[linkindex].style.transform = "rotate(" + (mainmapbox.map.array[linkindex].angle + ev.deltaX*Math.PI/5).toString() + "deg)";
+    }
 });    
 
 </script>
