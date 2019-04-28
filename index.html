@@ -90,55 +90,34 @@ linkFeed = [];
                 each row has "edit", "up", "down","delete", the actual element, forced into the size with overflow hidden
                 when edit is clicked the linkeditbar opens and this closes
             -->    
-            <div class = "button" id = "navbutton">NAVIGATOR</div>
             <table id = "arraynametable">
-        
-                <tr><td>Name:</td></tr>
-                <tr><td><input id = "arraynameinput"/></td></tr>
+                <tr>
+                    <td>Name:</td>
+                    <td><input id = "arraynameinput"/></td>
+                    <td>
+                        <img id = "navbutton" class = "button" src = "icons/navigator.svg" style = "width:50px;"/>
+                    </td>
+                </tr>
             </table>
+            <div id = "linkarrayscroll">
+
+            </div>
         </div>            
         <div id = "linkeditbar">
-        <!--
-        link edit bar only opens when a LINK in a map array is being edited, based on clicking the "edit" button in a row in arrayeditbar
-        to close, press the close button
-    
-         <div id = "savebutton" class = "button"></div>
-                     <div id = "closebutton" class = "button">CLOSE</div>
-            <div id = "newbutton" class = "button">NEW</div>
-            <div id = "nextbutton" class = "button">NEXT</div>
-            
-            <div id = "prevbutton" class = "button">PREV</div>
-            
-        <div id = "deletebutton" class = "button">DELETE</div>
-        
-           <div id = "moveupbutton" class= "button">UP</div>
-            <div id = "movedownbutton" class= "button">DOWN</div>
-    -->
+
+        <div id = "buttonrow1">
             <img id = "savebutton" src = "icons/savebutton.svg" class = "button" style = "width:50px"/>
-            <img id = "closebutton" src = "icons/closebutton.svg" class = "button" style = "width:50px"/>
-
-            <img id = "newbutton" src = "icons/newbutton.svg" class = "button" style = "width:50px"/>
             <img id = "deletebutton" src = "icons/deletebutton.svg" class = "button" style = "width:50px"/>
-
-            <img id = "prevbutton" src = "icons/prevbutton.svg" class = "button" style = "width:50px"/>
             <img id = "nextbutton" src = "icons/nextbutton.svg" class = "button" style = "width:50px"/>
-
+            <img id = "moveupbutton" src = "icons/moveupbutton.svg" class = "button" style = "width:50px"/>    
+        </div>
+        <div id = "buttonrow2">
+            <img id = "closebutton" src = "icons/closebutton.svg" class = "button" style = "width:50px"/>
+            <img id = "newbutton" src = "icons/newbutton.svg" class = "button" style = "width:50px"/>
+            <img id = "prevbutton" src = "icons/prevbutton.svg" class = "button" style = "width:50px"/>
             <img id = "movedownbutton" src = "icons/movedownbutton.svg" class = "button" style = "width:50px"/>
-            <img id = "moveupbutton" src = "icons/moveupbutton.svg" class = "button" style = "width:50px"/>
+        </div>
 
-
-<!-- add type pulldown menu here
-    also up and down move, build a control panel that is sized properly for half the space in the margin
-    all these things need symbols
-    integrate the feeds
-    symbol must feed the image feed
-    add uploader to put up local images on feed
-    add scroll
-    make the text boxes have real format
-    
-    nav bar if it exists would go to:
-        create a new node, scroll, symbol, upload image, feeds(all in one)
--->
 
             <table id = "linkedittable">
             <!--
@@ -156,11 +135,7 @@ linkFeed = [];
                     </select>                 
                 </td></tr>
             </table>       
-            <table id = "sliderbarcontroltable">
-            <!--
-            select what is being controlled: angle, w, h, 
-            -->
-            </table>
+
             <div id = "sliderbar">
             <!--slider bar for scale-->
             <img id = "sliderimage" src = "icons/scaleslider.svg"/>
@@ -204,50 +179,54 @@ mainmapbox.draw(mainmapbox);
 
 document.getElementById("arraynameinput").value = mainmap.name;
 
-linkindex = 0;
 
-for(var index = 0;index < mainmap.array.length; index++) {
-    var newdiv = document.createElement("DIV");
-    document.getElementById("arrayeditbar").appendChild(newdiv);
-    if(mainmap.array[index].type == "image") {
-        var newimg = document.createElement("IMG");
-        newimg.src = mainmap.array[index].url;
-        newdiv.appendChild(newimg);
-        newimg.width = marginWidth*0.5;
-        newimg.style.display = "block";
-        newimg.style.margin = "auto";
-        if(mainmap.array[index].url.length > 0){
-            imageFeed.push(mainmap.array[index].url);
-        }   
-    }
-    if(mainmap.array[index].type == "text") {
-        newdiv.innerHTML = mainmap.array[index].text;
-    }
-    newdiv.classList.add("arraylink");
-    newdiv.classList.add("button");
-    newdiv.style.border = "solid";
-    newdiv.id = "link" + index.toString();
-    newdiv.onclick = function(){
-        document.getElementById("arrayeditbar").style.display = "none";
-        document.getElementById("linkeditbar").style.display = "block";
-        linkindex = parseInt(this.id.substring(4));
-        document.getElementById("textinput").value = mainmap.array[linkindex].text;   
-        document.getElementById("urlinput").value = mainmap.array[linkindex].url;   
-        document.getElementById("hrefinput").value = mainmap.array[linkindex].href;   
-        document.getElementById("hammerxy").style.zIndex = 100;
+function initlinkarray(){
+    linkindex = 0;
+    for(var index = 0;index < mainmap.array.length; index++) {
+        var newdiv = document.createElement("DIV");
+        document.getElementById("linkarrayscroll").appendChild(newdiv);
+        if(mainmap.array[index].type == "image") {
+            var newimg = document.createElement("IMG");
+            newimg.src = mainmap.array[index].url;
+            newdiv.appendChild(newimg);
+            newimg.width = marginWidth*0.5;
+            newimg.style.display = "block";
+            newimg.style.margin = "auto";
+            if(mainmap.array[index].url.length > 0){
+                imageFeed.push(mainmap.array[index].url);
+            }   
+        }
+        if(mainmap.array[index].type == "text") {
+            newdiv.innerHTML = mainmap.array[index].text;
+        }
+        newdiv.classList.add("arraylink");
+        newdiv.classList.add("button");
+        newdiv.style.border = "solid";
+        newdiv.id = "link" + index.toString();
+        newdiv.onclick = function(){
+            document.getElementById("arrayeditbar").style.display = "none";
+            document.getElementById("linkeditbar").style.display = "block";
+            linkindex = parseInt(this.id.substring(4));
+            document.getElementById("textinput").value = mainmap.array[linkindex].text;   
+            document.getElementById("urlinput").value = mainmap.array[linkindex].url;   
+            document.getElementById("hrefinput").value = mainmap.array[linkindex].href;   
+            document.getElementById("hammerxy").style.zIndex = 100;
 
-        mainmapbox.linkArray[linkindex].style.border = "solid";
-        mainmapbox.linkArray[linkindex].style.borderWidth = "0.1px";
+            mainmapbox.linkArray[linkindex].style.border = "solid";
+            mainmapbox.linkArray[linkindex].style.borderWidth = "0.1px";
 
-    }
-    if(mainmap.array[index].href.length > 0){
-        linkFeed.push(mainmap.array[index].href);
-    }
-    if(mainmap.array[index].text.length > 0){
-        textFeed.push(mainmap.array[index].text);
+        }
+        if(mainmap.array[index].href.length > 0){
+            linkFeed.push(mainmap.array[index].href);
+        }
+        if(mainmap.array[index].text.length > 0){
+            textFeed.push(mainmap.array[index].text);
+        }
+
     }
 
 }
+initlinkarray();
 
 document.getElementById("closebutton").onclick = function() {
     document.getElementById("arrayeditbar").style.display = "block";
@@ -298,8 +277,10 @@ document.getElementById("prevbutton").onclick = function() {
 }
 
 document.getElementById("newbutton").onclick = function() {
+    mainmapbox.linkArray[linkindex].style.border = "none";
 
-    var newLink = new MapLink(0,0,0.1,1,0,"","","","text");
+    var newLink  = new MapLink(mainmap.array[linkindex].x + mainmap.array[linkindex].w*0.05,mainmap.array[linkindex].y + mainmap.array[linkindex].w*0.05,mainmap.array[linkindex].w,mainmap.array[linkindex].h,mainmap.array[linkindex].angle,mainmap.array[linkindex].text,mainmap.array[linkindex].href,mainmap.array[linkindex].url,mainmap.array[linkindex].type);
+  //  var newLink = new MapLink(0,0,0.1,1,0,"","","","text");
     mainmap.array.push(newLink);
     linkindex = mainmap.array.length - 1;
     document.getElementById("textinput").value = mainmap.array[linkindex].text;   
@@ -307,6 +288,10 @@ document.getElementById("newbutton").onclick = function() {
     document.getElementById("hrefinput").value = mainmap.array[linkindex].href;   
     document.getElementById("typeselect").value = mainmap.array[linkindex].type;
 
+
+    mainmapbox.draw(mainmapbox);
+    mainmapbox.linkArray[linkindex].style.border = "solid";
+    mainmapbox.linkArray[linkindex].style.borderWidth = "0.1px";
 
 }
 
@@ -460,8 +445,9 @@ document.getElementById("editmapbutton").onclick = function() {
 body{
     overflow:hidden;
 }
-input,table{
+input,table,select{
     font-family:courier;
+    font-size:16px;
 }
 
 #mainmap{
@@ -497,6 +483,18 @@ input,table{
     left:0px;
     overflow:scroll;
     font-family:courier;
+}
+#linkarrayscroll{
+    position:absolute;
+    right:50%;
+    bottom:0px;
+    top:80px;
+    left:0px;
+    overflow:scroll;
+    font-family:courier;
+}
+#linkarrayscroll img{
+    max-width:50%;
 }
 .arraylink{
     border:solid;
@@ -571,6 +569,11 @@ input,table{
     width:100%;
     height:100%;
     overflow:hidden;
+}
+#linkedittable{
+    position:absolute;
+    left:0px;
+    bottom:50%;
 }
 </style>
 </body>
