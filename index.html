@@ -198,6 +198,30 @@ document.getElementById("closebutton").onclick = function() {
     document.getElementById("hammerxy").style.zIndex = -100;
 }
 
+document.getElementById("nextbutton").onclick = function() {
+    
+    linkindex++;
+    if(linkindex > mainmap.array.length - 1){
+        linkindex = 0;
+    }
+    document.getElementById("textinput").value = mainmap.array[linkindex].text;   
+    document.getElementById("urlinput").value = mainmap.array[linkindex].url;   
+    document.getElementById("hrefinput").value = mainmap.array[linkindex].href;   
+
+}
+
+document.getElementById("prevbutton").onclick = function() {
+    
+    linkindex--;
+    if(linkindex < 0){
+        linkindex = mainmap.array.length - 1;
+    }
+    document.getElementById("textinput").value = mainmap.array[linkindex].text;   
+    document.getElementById("urlinput").value = mainmap.array[linkindex].url;   
+    document.getElementById("hrefinput").value = mainmap.array[linkindex].href;   
+
+}
+
 document.getElementById("textinput").onchange = function() {
     mainmap.array[linkindex].text = this.value;
     mainmapbox.draw(mainmapbox);
