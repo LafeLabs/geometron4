@@ -22,7 +22,7 @@
 <div id = "margin">            
     <div id = "linkdiv">
         <a href = "index.html">
-            <img style = "width:50px;" src = "icons/symbolicon.svg"/>
+            <img style = "width:50px;" src = "icons/navigator.svg"/>
         </a>   
         <a href = "hypercube.html">
             <img style = "width:50px;" src = "icons/hypercubeicon.svg"/>
@@ -61,12 +61,14 @@ else{
 
 //GVM2d(x0,y0,unit,theta0,canvas2d,width,height,bytecode)
 
-var newGVM = new GVM2d(200,200,50,-Math.PI/2,document.getElementById("maincanvas"),400,400,hypercube);
+var newGVM = new GVM2d(300,300,100,-Math.PI/2,document.getElementById("maincanvas"),600,600,hypercube);
 
 //newGVM.drawGlyph("0200,0333,0341,0350,0335,0101,0103,0101,0102,0365,0207,",newGVM);
 
-newGVM.address = 0260;
-newGVM.glyph = newGVM.hypercube[newGVM.address];
+newGVM.address = 0277;
+
+newGVM.glyph = "0207,";
+
 newGVM.drawGlyph(newGVM.glyph,newGVM);
 
 var spellGVM = new GVM2d(10,100,50,-Math.PI/2,document.getElementById("spellcanvas"),200,200,hypercube);
@@ -87,19 +89,6 @@ document.getElementById("actioninput").onkeydown = function(a) {
     if(charCode == 047){
         newGVM.cursorAction(021,newGVM);   
     }
-    if(charCode == 046){
-        //up arrow: next
-        newGVM.address++;
-        newGVM.glyph = newGVM.hypercube[newGVM.address] + "0207,";
-        newGVM.drawGlyph(newGVM.glyph,newGVM);
-    }
-    if(charCode == 050){
-        //down arrow: prev address
-        newGVM.address--;
-        newGVM.glyph = newGVM.hypercube[newGVM.address] + "0207,";
-        newGVM.drawGlyph(newGVM.glyph,newGVM);
-
-    }
 
     spellGVM.spellGlyph(newGVM.glyph,spellGVM);    
 
@@ -117,6 +106,30 @@ document.getElementById("actioninput").onkeypress = function(a) {
     spellGVM.spellGlyph(newGVM.glyph,spellGVM);    
     this.value = "";
     newGVM.saveGlyph(newGVM);
+}
+
+controlbuttons = [0330,0331,0332,0333,0334,0335,0336,0337,020,010,021,0341,0200,0201,0340,030,031,032,033,036,037,];
+
+buttonSize = marginWidth/8;
+for(var index = 0;index < controlbuttons.length; index++) {
+    
+    var newcan = document.createElement("canvas");
+    document.getElementById("controldiv").appendChild(newcan);
+    newcan.classList.add("button");
+    //GVM2d(x0,y0,unit,theta0,canvas2d,width,height,bytecode)
+    var newg = new GVM2d(1,buttonSize - 1,buttonSize-2,-Math.PI/2,newcan,buttonSize,buttonSize,hypercube);
+
+    newg.drawGlyph("0300,0" + (controlbuttons[index] + 01000).toString(8) + ",",newg);
+
+    newcan.id = "button0" + controlbuttons[index].toString(8);
+    newcan.onclick = function(){
+        newGVM.cursorAction(parseInt(this.id.substring(6),8),newGVM);
+        spellGVM.spellGlyph(newGVM.glyph,spellGVM);    
+        newGVM.saveGlyph(newGVM);
+
+    }
+
+
 }
 
 //document.getElementById("foo").src = newGVM.pngcode(newGVM);
@@ -153,6 +166,13 @@ body{
     top:90px;
     left:0px;
 }
+#controldiv{
+    position:absolute;
+    bottom:1em;
+    left:0px;
+    right:0px;
+    top:200px;
+}
 #linkdiv{
     width:100%;
     height:80px;
@@ -172,6 +192,15 @@ body{
     position:absolute;
     right:0px;
     bottom:0px;
+}
+.button:hover{
+    background-color:green;
+}
+.button:active{
+    background-color:yellow;
+}
+.button{
+    cursor:pointer;
 }
 </style>
 </body>
