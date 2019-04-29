@@ -15,20 +15,49 @@
     
     -->
 
-    <a href = "index.html">
-        <img style = "width:50px;" src = "icons/symbolicon.svg"/>
-    </a>   
-    <a href = "hypercube.html">
-        <img style = "width:50px;" src = "icons/hypercubeicon.svg"/>
-    </a>   
-    
-    <input id = "actioninput"/>
+<div id = "square">
     <canvas id = "maincanvas"></canvas>
-    <canvas id = "spellcanvas"></canvas>
-<textarea id = "textout"></textarea>
-<img id = "foo"/>
+</div>
+
+<div id = "margin">            
+    <div id = "linkdiv">
+        <a href = "index.html">
+            <img style = "width:50px;" src = "icons/symbolicon.svg"/>
+        </a>   
+        <a href = "hypercube.html">
+            <img style = "width:50px;" src = "icons/hypercubeicon.svg"/>
+        </a>               
+    </div>    
+    <div id = "spelldiv">
+        <canvas id = "spellcanvas"></canvas>
+    </div>
+    <div id = "controldiv">
+
+    </div>        
+    <input id = "actioninput"/>
+</div>
+
 <script>
 
+landscape = false;
+
+if(innerWidth > innerHeight){
+    squareWidth = innerHeight;
+    document.getElementById("margin").style.width = (innerWidth - squareWidth).toString() + "px";
+    document.getElementById("margin").style.height = innerHeight.toString() + "px";
+    document.getElementById("square").style.width = squareWidth.toString() + "px";
+    document.getElementById("square").style.height = squareWidth.toString() + "px";
+    marginWidth = innerWidth - squareWidth;
+    landscape = true;
+}
+else{
+    mapWidth = innerWidth;
+    document.getElementById("margin").style.height = (innerHeight - squareWidth).toString() + "px";
+    document.getElementById("margin").style.width = (innerHeight).toString() + "px";
+    document.getElementById("square").style.height = squareWidth.toString() + "px";
+    document.getElementById("square").style.width = squareWidth.toString() + "px";
+    marginWidth = innerHeight - squareWidth;
+}
 
 //GVM2d(x0,y0,unit,theta0,canvas2d,width,height,bytecode)
 
@@ -36,7 +65,7 @@ var newGVM = new GVM2d(200,200,50,-Math.PI/2,document.getElementById("maincanvas
 
 //newGVM.drawGlyph("0200,0333,0341,0350,0335,0101,0103,0101,0102,0365,0207,",newGVM);
 
-newGVM.address = 0220;
+newGVM.address = 0260;
 newGVM.glyph = newGVM.hypercube[newGVM.address];
 newGVM.drawGlyph(newGVM.glyph,newGVM);
 
@@ -44,7 +73,7 @@ var spellGVM = new GVM2d(10,100,50,-Math.PI/2,document.getElementById("spellcanv
 
 spellGVM.spellGlyph(newGVM.glyph,spellGVM);
 
-document.getElementById("textout").value = newGVM.bytecode(0220,0247,newGVM);
+//document.getElementById("textout").value = newGVM.bytecode(0220,0247,newGVM);
 
 document.getElementById("actioninput").onkeydown = function(a) {
     var charCode = a.keyCode || a.which;
@@ -90,12 +119,48 @@ document.getElementById("actioninput").onkeypress = function(a) {
     newGVM.saveGlyph(newGVM);
 }
 
-document.getElementById("foo").src = newGVM.pngcode(newGVM);
+//document.getElementById("foo").src = newGVM.pngcode(newGVM);
 
 document.getElementById("actioninput").select();
 
 </script>
 <style>
+body{
+    overflow:hidden;
+}
+#square{
+    position:absolute;
+    left:0px;
+    top:0px;
+    border:solid;
+    border-width:0.1px;
+    border-color:blue;
+    overflow:hidden;
+}
+#margin{
+    position:absolute;
+    right:0px;
+    bottom:0px;
+    border:solid;
+    border-width:0.1px;
+    border-color:red;
+}
+#spelldiv{
+    width:100%;
+    height:80px;
+    overflow:scroll;
+    position:absolute;
+    top:90px;
+    left:0px;
+}
+#linkdiv{
+    width:100%;
+    height:80px;
+    overflow:scroll;
+    position:absolute;
+    top:0px;
+    left:0px;
+}
 #maincanvas{
     border:solid;
 }
@@ -104,11 +169,9 @@ document.getElementById("actioninput").select();
 }
 #actioninput{
     width:1em;
-}
-#foo{
-    border:solid;
-    background-color:#afffaf;
-    width:150px;
+    position:absolute;
+    right:0px;
+    bottom:0px;
 }
 </style>
 </body>
