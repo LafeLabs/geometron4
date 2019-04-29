@@ -74,15 +74,51 @@ linkFeed = [];
     </div>
     <div id = "margin">
         <div id = "navigatorbar">
-            <p class = "button" id = "editmapbutton">EDIT MAP</p>
-            <p>SCROLL</p>
-            <p>SYMBOL</p>
-            <p>BRANCH DOWN</p>
-            <p>UP</p>
-            <p>TEXT FEED</p>
-            <p>IMAGE FEED</p>
-            <p>IMPORT</p>
-            <p>SCROLL OF SUB BRANCHES</p>            
+            <img id = "editmapbutton" class = "button" style = "width:50px;" src = "icons/arrayicon.svg"/>
+
+            <a href = "scroll.html">
+                <img id = "scrollbutton" class = "button" style = "width:50px;" src = "icons/scrollicon.svg"/>
+            </a>
+    
+            <a href = "symbol.html">
+                <img id = "symbolbutton" class = "button" style = "width:50px;" src = "icons/symbolicon.svg"/>
+            </a>
+            <a href = "../">
+                <img id = "uplinkbutton" class = "button" style = "width:50px;" src = "icons/linkupicon.svg"/>
+            </a>
+            <a href = "feed.html">
+                <img id = "feedbutton" class = "button" style = "width:50px;" src = "icons/feedicon.svg"/>
+                <!-- one page that manages both image and text feed, including image uploads and optional mathjax  -->
+
+            </a>
+
+            <img id = "importbutton" class = "button" style = "width:50px;" src = "icons/importicon.svg"/>
+            <img id = "branchdownbutton" class = "button" style = "width:50px;" src = "icons/branchdownicon.svg"/>
+
+            <table style = "display:none" id = "branchnametable">
+                <tr>
+                    <td>
+                        Branch Name:
+                    </td>
+                    <td>
+                        <input id = "branchnameinput"/>
+                    </td>
+                </tr>
+            </table>
+            <table style = "display:none" id = "importtable">
+                <tr>
+                    <td>
+                        Branch Name:
+                    </td>
+                    <td>
+                        <input id = "importinput"/>
+                    </td>
+                </tr>
+            </table>
+    
+            <div id = "branchscroll">
+                <h3>Branches Down:</h3>
+            </div>
         </div>
         <div id = "arrayeditbar">
             <!--
@@ -92,11 +128,11 @@ linkFeed = [];
             -->    
             <table id = "arraynametable">
                 <tr>
-                    <td>Name:</td>
-                    <td><input id = "arraynameinput"/></td>
                     <td>
                         <img id = "navbutton" class = "button" src = "icons/navigator.svg" style = "width:50px;"/>
-                    </td>
+                    </td>        
+                    <td>Name:</td>
+                    <td><input id = "arraynameinput"/></td>
                 </tr>
             </table>
             <div id = "linkarrayscroll">
@@ -105,18 +141,18 @@ linkFeed = [];
         </div>            
         <div id = "linkeditbar">
 
-        <div id = "buttonrow1">
-            <img id = "savebutton" src = "icons/savebutton.svg" class = "button" style = "width:50px"/>
-            <img id = "deletebutton" src = "icons/deletebutton.svg" class = "button" style = "width:50px"/>
-            <img id = "nextbutton" src = "icons/nextbutton.svg" class = "button" style = "width:50px"/>
-            <img id = "moveupbutton" src = "icons/moveupbutton.svg" class = "button" style = "width:50px"/>    
-        </div>
-        <div id = "buttonrow2">
-            <img id = "closebutton" src = "icons/closebutton.svg" class = "button" style = "width:50px"/>
-            <img id = "newbutton" src = "icons/newbutton.svg" class = "button" style = "width:50px"/>
-            <img id = "prevbutton" src = "icons/prevbutton.svg" class = "button" style = "width:50px"/>
-            <img id = "movedownbutton" src = "icons/movedownbutton.svg" class = "button" style = "width:50px"/>
-        </div>
+            <div id = "buttonrow1">
+                <img id = "savebutton" src = "icons/savebutton.svg" class = "button" style = "width:50px"/>
+                <img id = "deletebutton" src = "icons/deletebutton.svg" class = "button" style = "width:50px"/>
+                <img id = "nextbutton" src = "icons/nextbutton.svg" class = "button" style = "width:50px"/>
+                <img id = "moveupbutton" src = "icons/moveupbutton.svg" class = "button" style = "width:50px"/>    
+            </div>
+            <div id = "buttonrow2">
+                <img id = "closebutton" src = "icons/closebutton.svg" class = "button" style = "width:50px"/>
+                <img id = "newbutton" src = "icons/newbutton.svg" class = "button" style = "width:50px"/>
+                <img id = "prevbutton" src = "icons/prevbutton.svg" class = "button" style = "width:50px"/>
+                <img id = "movedownbutton" src = "icons/movedownbutton.svg" class = "button" style = "width:50px"/>
+            </div>
 
 
             <table id = "linkedittable">
