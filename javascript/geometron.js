@@ -38,9 +38,6 @@ A Geometron is a geometric virtual machine which has two 8x8x8 cubes of operatio
 
     */
 
-function controlPanel() {
-    
-}
 
 function ActionInput(input,drawGVM,spellGVM) {
     this.glyph = drawGVM.glyph + "0207,";
@@ -120,7 +117,7 @@ function GVM2d(x0,y0,unit,theta0,canvas2d,width,height,bytecode) {
     this.style = {
         color0: "black",
         fill0: "black",
-        line0: 1,
+        line0: 2,
         color1: "black",
         fill1: "black",
         line1: 3,
