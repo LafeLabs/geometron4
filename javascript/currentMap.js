@@ -44,6 +44,17 @@ currentMap = {
             "href": "index.html",
             "url": "http://www.cherrytreemaryland.xyz/symbol/svg/svg1556330629.svg",
             "type": "image"
+        },
+        {
+            "x": 0.5906921241050119,
+            "y": 0.5751789976133651,
+            "w": 0.09904534606205251,
+            "h": 1,
+            "angle": 267,
+            "text": "",
+            "href": "index.html",
+            "url": "http://www.cherrytreemaryland.xyz/symbol/svg/svg1556330629.svg",
+            "type": "image"
         }
     ]
 };
