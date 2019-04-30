@@ -5,57 +5,10 @@
         
     <script src="javascript/mapfactory.js"></script>
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.js"></script>
+    <script src = "javascript/currentMap.js"></script>
     <script>
     
-var mapdata = {
-    "name": "mynewmap",
-    "array": [
-        {
-            "x": 0.2,
-            "y": 0.2,
-            "w": 0.5,
-            "h": 1,
-            "angle": 0,
-            "text": "",
-            "href": "",
-            "url": "http://geometron.000webhostapp.com/uploadimages/image27.jpg",
-            "type": "image"
-        },
-        {
-            "x": 0.5,
-            "y": 0.25,
-            "w": 0.15,
-            "h": 1,
-            "angle": 0,
-            "text": "TOP",
-            "href": "",
-            "url": "",
-            "type": "text"
-        },
-        {
-            "x": 0.5,
-            "y": 0.5,
-            "w": 0.15,
-            "h": 1,
-            "angle": 0,
-            "text": "BOTTOM",
-            "href": "",
-            "url": "",
-            "type": "text"
-        },
-        {
-            "x": 0.4,
-            "y": 0.4,
-            "w": 0.1,
-            "h": 1,
-            "angle": 180,
-            "text": "",
-            "href": "index.html",
-            "url": "http://www.cherrytreemaryland.xyz/symbol/svg/svg1556330629.svg",
-            "type": "image"
-        }
-    ]
-}
+
 
 textFeed = [
     "text"
@@ -211,7 +164,8 @@ document.getElementById("hammerxy").style.height = (mapWidth).toString() + "px";
 mainmap = new Map("main map");
 mainmapbox = new MapBox(mapWidth,mapWidth,mainmap,document.getElementById("mainmap"));
 
-mainmap.array = mapdata.array;
+mainmap.name = currentMap.name;
+mainmap.array = currentMap.array;
 mainmapbox.draw(mainmapbox);
 
 document.getElementById("arraynameinput").value = mainmap.name;
@@ -280,10 +234,23 @@ document.getElementById("savebutton").onclick = function() {
     mainmapbox.map.array[linkindex].w = parseInt(mainmapbox.linkArray[linkindex].style.width.substring(0,mainmapbox.linkArray[linkindex].style.width.length-2))/mainmapbox.w;
     mainmapbox.map.array[linkindex].angle = parseInt(mainmapbox.linkArray[linkindex].style.transform.substring(7,mainmapbox.linkArray[linkindex].style.transform.length - 4));
 
+    var url = "filesaver.php";        
+    var httpc = new XMLHttpRequest();
+    httpc.open("POST", url, true);
+    httpc.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpc.send("data="+encodeURIComponent("currentMap = " + JSON.stringify(mainmapbox.map,null,"    ") + ";")+"&filename=javascript/currentMap.js");//send text to filesaver.php
+
+
 }
 
 document.getElementById("nextbutton").onclick = function() {
     mainmapbox.linkArray[linkindex].style.border = "none";
+
+    mainmapbox.map.array[linkindex].x = parseInt(mainmapbox.linkArray[linkindex].style.left.substring(0,mainmapbox.linkArray[linkindex].style.left.length-2))/mainmapbox.w;
+    mainmapbox.map.array[linkindex].y = parseInt(mainmapbox.linkArray[linkindex].style.top.substring(0,mainmapbox.linkArray[linkindex].style.top.length-2))/mainmapbox.w;
+    mainmapbox.map.array[linkindex].w = parseInt(mainmapbox.linkArray[linkindex].style.width.substring(0,mainmapbox.linkArray[linkindex].style.width.length-2))/mainmapbox.w;
+    mainmapbox.map.array[linkindex].angle = parseInt(mainmapbox.linkArray[linkindex].style.transform.substring(7,mainmapbox.linkArray[linkindex].style.transform.length - 4));
+
 
     linkindex++;
     if(linkindex > mainmap.array.length - 1){
@@ -300,6 +267,11 @@ document.getElementById("nextbutton").onclick = function() {
 
 document.getElementById("prevbutton").onclick = function() {
     mainmapbox.linkArray[linkindex].style.border = "none";
+    mainmapbox.map.array[linkindex].x = parseInt(mainmapbox.linkArray[linkindex].style.left.substring(0,mainmapbox.linkArray[linkindex].style.left.length-2))/mainmapbox.w;
+    mainmapbox.map.array[linkindex].y = parseInt(mainmapbox.linkArray[linkindex].style.top.substring(0,mainmapbox.linkArray[linkindex].style.top.length-2))/mainmapbox.w;
+    mainmapbox.map.array[linkindex].w = parseInt(mainmapbox.linkArray[linkindex].style.width.substring(0,mainmapbox.linkArray[linkindex].style.width.length-2))/mainmapbox.w;
+    mainmapbox.map.array[linkindex].angle = parseInt(mainmapbox.linkArray[linkindex].style.transform.substring(7,mainmapbox.linkArray[linkindex].style.transform.length - 4));
+
     linkindex--;
     if(linkindex < 0){
         linkindex = mainmap.array.length - 1;

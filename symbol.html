@@ -103,6 +103,29 @@ document.getElementById("actioninput").onkeydown = function(a) {
         newGVM.cursorAction(021,newGVM);   
     }
 
+    if(charCode == 046){
+        //up arrow: prev symbol
+        glyphFeedIndex--;
+        if(glyphFeedIndex < 0){            
+          glyphFeedIndex = glyphFeed.length - 1;
+        }
+        newGVM.glyph = glyphFeed[glyphFeedIndex] + "0207,";        
+        newGVM.drawGlyph(newGVM.glyph,newGVM);
+        spellGVM.spellGlyph(newGVM.glyph,spellGVM);
+
+    }
+    if(charCode == 050){
+        //down arrow: next symbol
+        glyphFeedIndex++;
+        if(glyphFeedIndex > glyphFeed.length - 1){            
+          glyphFeedIndex = 0;
+        }
+        newGVM.glyph = glyphFeed[glyphFeedIndex] + "0207,";        
+        newGVM.drawGlyph(newGVM.glyph,newGVM);
+        spellGVM.spellGlyph(newGVM.glyph,spellGVM);
+
+    }
+
     spellGVM.spellGlyph(newGVM.glyph,spellGVM);    
 
 }
