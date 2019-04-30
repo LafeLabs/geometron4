@@ -86,9 +86,28 @@
             if (this.readyState == 4 && this.status == 200) {
                 uploadImages = JSON.parse(this.responseText);
                 for(var index = 0;index < uploadImages.length;index++) {
+                    var newuploadbox = document.createElement("DIV");
+                    newuploadbox.classList.add("uploadbox");
                     var newimg = document.createElement("IMG");
                     newimg.src = "uploadimages/" + uploadImages[index];
-                    document.getElementById("feedscroll").appendChild(newimg);
+                    newimg.classList.add("uploadimage");
+                    newuploadbox.appendChild(newimg);
+                    document.getElementById("feedscroll").appendChild(newuploadbox);
+                    var newimg = document.createElement("IMG");
+                    newimg.src = "icons/deletebutton.svg";
+                    newuploadbox.appendChild(newimg);
+                    newimg.classList.add("button");
+                    newimg.classList.add("deletebutton");
+                    newimg.onclick = function(){
+                        var imageurl =this.parentElement.getElementsByClassName("uploadimage")[0].src; 
+                        var imagename = "uploadimages/" + imageurl.split("uploadimages/")[1];
+                        var httpc = new XMLHttpRequest();
+                        var url = "deletefile.php";         
+                        httpc.open("POST", url, true);
+                        httpc.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+                        httpc.send("filename=" + imagename);//send text to deletefile.php
+                        this.parentElement.parentElement.removeChild(this.parentElement);
+                    }
                 }
             }
         };
@@ -122,10 +141,22 @@
                 border-width:0.1px;
                 border-color:red;
             }
-            #feedscroll img{
-                max-width:80%;
+            .uploadbox{
+                border:solid;
+                margin-top:1em;
+                margin-bottom:1em;
+                border-radius:1em;
+                width:80%;
                 display:block;
-                margin:auto;
+                margin-left:8%;
+            }
+            .deletebutton{
+                width:50px;
+                height:50px;
+                margin-right:1em;
+            }
+            .uploadimage{
+                max-width:75%;
             }
             #margin{
                 position:absolute;
