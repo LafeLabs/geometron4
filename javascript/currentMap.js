@@ -18,7 +18,7 @@ currentMap = {
             "w": 0.14916467780429593,
             "h": 1,
             "angle": 50,
-            "text": "TOP top top",
+            "text": "TOP",
             "href": "",
             "url": "",
             "type": "text"
