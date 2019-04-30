@@ -138,6 +138,12 @@
             document.getElementById("maintextarea").onkeyup = function() {
                 readme_md = this.value;
                 rawhtml = converter.makeHtml(this.value);
+                data = encodeURIComponent(this.value);
+                var httpc = new XMLHttpRequest();
+                var url = "filesaver.php";        
+                httpc.open("POST", url, true);
+                httpc.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+                httpc.send("data="+data+"&filename=readme.md");//send text to filesaver.php
             }
         </script>
         <style>
