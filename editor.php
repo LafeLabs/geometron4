@@ -34,10 +34,13 @@ EGO DEATH:
     <div class = "html file">symbol.html</div>
 
     <div class = "javascript file">javascript/geometron.js</div>
+    <div class = "javascript file">javascript/mapfactory.js</div>
+    
     <div class = "php file">php/editor.txt</div>
     <div class = "php file">php/replicator.txt</div>
     <div class = "php file">php/metareplicator.txt</div>
     <div class = "php file">php/filesaver.txt</div>
+    <div class = "php file">php/pngsave.txt</div>
     <div class = "php file">php/fileloader.txt</div>
     <div class = "php file">php/text2php.txt</div>
     <div class = "php file">php/dnagenerator.txt</div>

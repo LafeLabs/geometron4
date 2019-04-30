@@ -4,6 +4,7 @@
         <META NAME="robots" CONTENT="noindex,nofollow">
 
     <script src="javascript/geometron.js"></script>
+    <script src="javascript/glyphFeed.js"></script>
 </head>
 <body> 
 
@@ -17,6 +18,7 @@
 
 <div id = "square">
     <canvas id = "maincanvas"></canvas>
+    <canvas id = "invisiblecanvas"></canvas>
 </div>
 
 <div id = "margin">            
@@ -27,7 +29,7 @@
         <a href = "hypercube.html">
             <img style = "width:50px;" src = "icons/hypercubeicon.svg"/>
         </a>               
-        <img class = "button" style = "width:50px;" src = "icons/savebutton.svg"/>
+        <img id = "savebutton" class = "button" style = "width:50px;" src = "icons/savebutton.svg"/>
     </div>    
     <div id = "spelldiv">
         <canvas id = "spellcanvas"></canvas>
@@ -62,13 +64,23 @@ else{
 
 //GVM2d(x0,y0,unit,theta0,canvas2d,width,height,bytecode)
 
-var newGVM = new GVM2d(squareWidth - 20,squareWidth - 20,squareWidth - 40,-Math.PI/2,document.getElementById("maincanvas"),squareWidth,squareWidth,hypercube);
+var newGVM = new GVM2d(0.98*squareWidth,0.98*squareWidth,0.96*squareWidth,-Math.PI/2,document.getElementById("maincanvas"),squareWidth,squareWidth,hypercube);
+
+invisibleWidth = 200;
+var invisibleGVM = new GVM2d(0.98*invisibleWidth,0.98*invisibleWidth,0.96*invisibleWidth,-Math.PI/2,document.getElementById("invisiblecanvas"),invisibleWidth,invisibleWidth,hypercube);
+
 
 //newGVM.drawGlyph("0200,0333,0341,0350,0335,0101,0103,0101,0102,0365,0207,",newGVM);
 
 newGVM.address = 0277;
 
 newGVM.glyph = "0200,0336,0330,0332,0336,0207,";
+
+glyphFeedIndex = 0;
+if(glyphFeed.length > 0){
+    glyphFeedIndex = glyphFeed.length - 1;
+    newGVM.glyph = glyphFeed[glyphFeedIndex] + "0207,";        
+}
 
 newGVM.drawGlyph(newGVM.glyph,newGVM);
 
@@ -137,6 +149,35 @@ for(var index = 0;index < controlbuttons.length; index++) {
 
 //document.getElementById("foo").src = newGVM.pngcode(newGVM);
 
+document.getElementById("savebutton").onclick = function() {
+
+//for now this is just png, add svg later, which will require adding code to gvm
+
+    var timestamp = Math.round((new Date().getTime())/1000).toString();
+    var httpc = new XMLHttpRequest();
+    var url = "pngsave.php";        
+    httpc.open("POST", url, true);
+    httpc.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    var cleanGlyph = "";
+    var glyphArray = newGVM.glyph.split(",");
+    for(var index = 0;index < glyphArray.length;index++ ) {
+        if(glyphArray[index] != "0207" && glyphArray[index].length > 0) {
+            cleanGlyph += glyphArray[index] + ",";
+        }
+    }
+    invisibleGVM.drawGlyph(cleanGlyph,invisibleGVM);
+    httpc.send("data="+encodeURIComponent(invisibleGVM.pngcode(invisibleGVM).substring(22))+"&filename=symbolfeed/symbol" + timestamp +  ".png");//send text to filesaver.php
+
+    glyphFeed.push(cleanGlyph);
+
+    var url2 = "filesaver.php";        
+    var httpc2 = new XMLHttpRequest();
+    httpc2.open("POST", url2, true);
+    httpc2.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpc2.send("data="+encodeURIComponent("glyphFeed = " + JSON.stringify(glyphFeed,null,"  "))+"&filename=javascript/glyphFeed.js");//send text to filesaver.php
+
+}
+
 document.getElementById("actioninput").select();
 
 </script>
@@ -204,6 +245,9 @@ body{
 }
 .button{
     cursor:pointer;
+}
+#invisiblecanvas{
+    display:none;
 }
 </style>
 </body>
