@@ -1,7 +1,7 @@
 <?php
 
 
-$dnaurl = "https://raw.githubusercontent.com/LafeLabs/geometron4/master/javascript/dna.js";
+$dnaurl = "https://raw.githubusercontent.com/LafeLabs/geometron4/master/javascript/dna.txt";
 $baseurl = explode("javascript/",$dnaurl)[0];
 $dnaraw = explode("dna = ",file_get_contents($dnaurl))[1];
 $dna = json_decode($dnaraw);
@@ -27,6 +27,8 @@ foreach($dna->icons as $value){
 
 foreach($dna->php as $value){
     copy($baseurl."php/".$value,$value);
+    copy($baseurl."php/".$value,explode(".",$value)[0].".php")
+    
 }
 
 ?>
