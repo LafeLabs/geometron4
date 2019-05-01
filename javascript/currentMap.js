@@ -85,7 +85,7 @@ currentMap = {
             "h": 1,
             "angle": 0,
             "text": "",
-            "href": "",
+            "href": "scroll.html",
             "url": "icons/scrollicon.svg",
             "type": "image"
         }

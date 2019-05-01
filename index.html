@@ -37,17 +37,17 @@ linkFeed = [];
             <a href = "symbol.html">
                 <img id = "symbolbutton" class = "button" style = "width:50px;" src = "icons/symbolicon.svg"/>
             </a>
-            <a href = "../">
-                <img id = "uplinkbutton" class = "button" style = "width:50px;" src = "icons/linkupicon.svg"/>
-            </a>
             <a href = "feed.html">
                 <img id = "feedbutton" class = "button" style = "width:50px;" src = "icons/feedicon.svg"/>
-                <!-- one page that manages both image and text feed, including image uploads and optional mathjax  -->
-
+            </a>
+    
+            <a href = "../">
+                <img id = "uplinkbutton" class = "button" style = "width:50px;" src = "icons/linkupicon.svg"/>
             </a>
 
             <img id = "importbutton" class = "button" style = "width:50px;" src = "icons/importicon.svg"/>
             <img id = "branchdownbutton" class = "button" style = "width:50px;" src = "icons/branchdownicon.svg"/>
+            <img id = "createbutton" class = "button" style = "width:50px;" src = "icons/createicon.svg"/>
 
             <table style = "display:none" id = "branchnametable">
                 <tr>
@@ -62,7 +62,7 @@ linkFeed = [];
             <table style = "display:none" id = "importtable">
                 <tr>
                     <td>
-                        Branch Name:
+                        Import Url Name:
                     </td>
                     <td>
                         <input id = "importinput"/>
@@ -72,6 +72,9 @@ linkFeed = [];
     
             <div id = "branchscroll">
                 <h3>Branches Down:</h3>
+                <ul id = "branchlist">
+
+                </ul>
             </div>
         </div>
         <div id = "arrayeditbar">
@@ -449,6 +452,23 @@ document.getElementById("editmapbutton").onclick = function() {
     document.getElementById("arrayeditbar").style.display = "block";
     document.getElementById("navigatorbar").style.display = "none";
 }
+
+document.getElementById("branchdownbutton").onclick = function() {
+    document.getElementById("branchnametable").style.display = "block";
+
+}
+
+document.getElementById("branchnameinput").onchange = function() {
+    var newbranchname = this.value;
+    var newa = document.createElement("A");
+    newa.href = newbranchname + "/";
+    newa.innerHTML = newbranchname + "/";
+    var newli = document.createElement("LI");
+    newli.appendChild(newa);
+    document.getElementById("branchlist").appendChild(newli);
+    
+}
+
 </script>
 <style>
 body{
