@@ -457,8 +457,45 @@ document.getElementById("branchdownbutton").onclick = function() {
     document.getElementById("branchnametable").style.display = "block";
 }
 
+var httpc = new XMLHttpRequest();
+httpc.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        branches = JSON.parse(this.responseText);
+        for(var index = 0;index < branches.length;index++) {
+            var newa = document.createElement("A");
+            newa.href = branches[index] + "/";
+            newa.innerHTML = branches[index] + "/";
+            var newli = document.createElement("LI");
+            newli.appendChild(newa);
+            document.getElementById("branchlist").appendChild(newli);
+            var newimg = document.createElement("IMG");
+            newimg.classList.add("button");
+            newimg.style.width = "50px";
+            newimg.style.height = "50px";
+            newimg.id = "del" + branches[index];
+            newimg.src  = "icons/deletebutton.svg";
+
+            newli.appendChild(newimg);
+            newimg.onclick = function() {
+                var branchname = this.id.substring(3);
+                var httpc = new XMLHttpRequest();
+                httpc.open("GET","deletebranch.php?filename=" + branchname, true);
+                httpc.send();//send text to deletebranch.php
+                this.parentElement.parentElement.removeChild(this.parentElement);
+            }    
+            
+        }
+    }
+};
+
+httpc.open("GET","dir.php?type=dir", true);
+httpc.send();//send text to newbranch.php
+
+
 document.getElementById("branchnameinput").onchange = function() {
+
     var newbranchname = this.value;
+
     var newa = document.createElement("A");
     newa.href = newbranchname + "/";
     newa.innerHTML = newbranchname + "/";
@@ -470,6 +507,7 @@ document.getElementById("branchnameinput").onchange = function() {
     newimg.style.width = "50px";
     newimg.style.height = "50px";
     newimg.id = "del" + newbranchname;
+    newimg.src  = "icons/deletebutton.svg";
     newli.appendChild(newimg);
     newimg.onclick = function() {
         var branchname = this.id.substring(3);
