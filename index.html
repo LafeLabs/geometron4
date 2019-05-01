@@ -448,6 +448,9 @@ document.getElementById("navbutton").onclick = function(){
     document.getElementById("arrayeditbar").style.display = "none";
     document.getElementById("navigatorbar").style.display = "block";
 }
+document.getElementById("arrayeditbar").style.display = "none";
+document.getElementById("navigatorbar").style.display = "block";
+
 document.getElementById("editmapbutton").onclick = function() {
     document.getElementById("arrayeditbar").style.display = "block";
     document.getElementById("navigatorbar").style.display = "none";
@@ -521,6 +524,7 @@ document.getElementById("branchnameinput").onchange = function() {
     httpc.open("GET","newbranch.php?filename=" + newbranchname, true);
     httpc.send();//send text to newbranch.php
 
+    this.style.display = "none";
 }
 
 </script>
