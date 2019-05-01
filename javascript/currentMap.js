@@ -41,7 +41,7 @@ currentMap = {
             "h": 1,
             "angle": 180,
             "text": "",
-            "href": "index.html",
+            "href": "foo/",
             "url": "http://www.cherrytreemaryland.xyz/symbol/svg/svg1556330629.svg",
             "type": "image"
         },

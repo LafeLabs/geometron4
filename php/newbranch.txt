@@ -20,14 +20,20 @@ foreach($files as $value){
     }
 }
 
-$dna = json_decode("{}");
-$dna->html = $htmlfiles;
-$dna->javascript = $jsfiles;
-$dna->icons = $iconfiles;
-$dna->php = $phpfiles;
-    
 foreach($htmlfiles as $value){
     copy($value,$branchname."/".$value);
+}
+
+foreach($jsfiles as $value){
+    copy("javascript/".$value,$branchname."/javascript/".$value);
+}
+
+foreach($iconfiles as $value){
+    copy("icons/".$value,$branchname."/icons/".$value);
+}
+
+foreach($phpfiles as $value){
+    copy("php/".$value,$branchname."/php/".$value);
 }
 
 ?>
