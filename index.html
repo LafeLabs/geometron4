@@ -455,7 +455,6 @@ document.getElementById("editmapbutton").onclick = function() {
 
 document.getElementById("branchdownbutton").onclick = function() {
     document.getElementById("branchnametable").style.display = "block";
-
 }
 
 document.getElementById("branchnameinput").onchange = function() {
@@ -466,7 +465,27 @@ document.getElementById("branchnameinput").onchange = function() {
     var newli = document.createElement("LI");
     newli.appendChild(newa);
     document.getElementById("branchlist").appendChild(newli);
-    
+    var newimg = document.createElement("IMG");
+    newimg.classList.add("button");
+    newimg.style.width = "50px";
+    newimg.style.height = "50px";
+    newimg.id = "del" + newbranchname;
+    newli.appendChild(newimg);
+    newimg.onclick = function() {
+        var branchname = this.id.substring(3);
+        var url = "deletebranch.php";        
+        var httpc = new XMLHttpRequest();
+        httpc.open("GET", url, true);
+        httpc.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        httpc.send("filename=" + branchname);//send text to newbranch.php
+        this.parentElement.parentElement.removeChild(this.parentElement);
+    }    
+    var url = "newbranch.php";        
+    var httpc = new XMLHttpRequest();
+    httpc.open("GET", url, true);
+    httpc.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpc.send("filename=" + newbranchname);//send text to newbranch.php
+
 }
 
 </script>
