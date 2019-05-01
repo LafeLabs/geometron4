@@ -15,7 +15,7 @@ $phpfiles = scandir(getcwd()."/php");
 
 $htmlfiles = [];
 foreach($files as $value){
-    if(substr($value,-5) == ".html"){
+    if(substr($value,-5) == ".html" || substr($value,-3) == ".md"){
         array_push($htmlfiles,$value);
     }
 }
@@ -34,6 +34,8 @@ foreach($iconfiles as $value){
 
 foreach($phpfiles as $value){
     copy("php/".$value,$branchname."/php/".$value);
+    copy("php/".$value,explode(".",$value)[0].".php");
+    
 }
 
 ?>

@@ -7,7 +7,7 @@
 
     $htmlfiles = [];
     foreach($files as $value){
-        if(substr($value,-5) == ".html"){
+        if(substr($value,-5) == ".html" || substr($value,-3) == ".md"){
             array_push($htmlfiles,$value);
         }
     }
