@@ -184,7 +184,7 @@
                     document.getElementById("scrollscroll").innerHTML = rawhtml;
                 }
             };
-            httpc.open("GET", "fileloader.php?filename=readme.md", true);
+            httpc.open("GET", "fileloader.php?filename=README.md", true);
             httpc.send();
 
             document.getElementById("maintextarea").onkeyup = function() {
@@ -197,7 +197,7 @@
                 var url = "filesaver.php";        
                 httpc.open("POST", url, true);
                 httpc.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
-                httpc.send("data="+data+"&filename=readme.md");//send text to filesaver.php
+                httpc.send("data="+data+"&filename=README.md");//send text to filesaver.php
             }
         </script>
         <style>
@@ -226,6 +226,7 @@
                 border-color:red;
                 padding-left:1em;
                 padding-right:1em;
+                padding-bottom:5em;
             }
             #scrollscroll img{
                 max-width:80%;
