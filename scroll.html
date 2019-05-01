@@ -41,23 +41,45 @@
                 <img style = "width:50px;" src = "icons/symbolicon.svg"/>
             </a>    
             <table id = "modetable">
-                    <tr>
-                        <td class = "button" id = "mathbutton">Math Mode On/Off:</td>
-                        <td id = "mathindicator" class = "indicator"></td>
-                    </tr>
-                    <tr>
-                        <td class = "button" id = "editbutton">Edit Mode On/Off:</td>
-                        <td id = "editindicator" class = "indicator"></td>
-                    </tr>    
-                    <tr>
-                        <td class = "button" id = "splitbutton">Split Mode On/Off:</td>
-                        <td id = "splitindicator" class = "indicator"></td>
-                    </tr>    
-                    <tr>
-                            <td class = "button" id = "bootstrapbutton">Bootstrap Mode On/Off:</td>
-                            <td id = "splitindicator" class = "indicator"></td>
-                        </tr>        
-                </table>        
+               
+                <!--
+                <tr>
+                    <td class = "button" id = "mathbutton">Math Mode On/Off:</td>
+                    <td id = "mathindicator" class = "indicator"></td>
+                </tr>
+            -->
+                <tr>
+                    <td class = "button" id = "editbutton">Edit Mode On/Off:</td>
+                    <td id = "editindicator" class = "indicator"></td>
+                </tr>    
+                <tr>
+                    <td class = "button" id = "splitbutton">Split Mode On/Off:</td>
+                    <td id = "splitindicator" class = "indicator"></td>
+                </tr>    
+
+<!--                <tr>
+                    <td class = "button" id = "bootstrapbutton">Bootstrap Mode On/Off:</td>
+                    <td id = "splitindicator" class = "indicator"></td>
+                </tr>        
+            -->
+            </table>        
+            <div id = "markdownhelp">
+<h2>Markdown Reference:</h2>
+                <pre>
+
+    link:    [link](url)
+    image: ![alt](src)
+    # header 
+    ## smaller header 
+    - list element 
+    - another element 
+    1. enumerated list element 
+    2. another 
+    *italic* 
+    **bold** 
+
+</pre>
+            </div>
         </div>
         <script>
             landscape = false;
@@ -85,6 +107,8 @@
                 marginWidth = squareWidth - innerWidth;
             }
 
+
+/*
             mathMode = false;
             document.getElementById("mathbutton").onclick = function() {
                 mathMode = !mathMode;
@@ -95,7 +119,7 @@
                     document.getElementById("mathindicator").style.backgroundColor = "white";
                 }
             }
-            
+  */          
             editMode = false;
 
             document.getElementById("editbutton").onclick = function() {
@@ -114,6 +138,34 @@
                 }
             }
             
+            splitMode = false;
+            document.getElementById("splitbutton").onclick = function() {
+                editMode = !editMode;
+                if(editMode){
+                    document.getElementById("maintextarea").style.display = "block";
+                    document.getElementById("scrollscroll").style.display = "block";
+                    document.getElementById("splitindicator").style.backgroundColor = "#00ff00";
+                    document.getElementById("scrollscroll").style.right = "0%";
+                    document.getElementById("scrollscroll").style.left = "50%";
+                    document.getElementById("scrollscroll").style.position = "absolute";
+                    
+//                    document.getElementById("scrollscroll").style.width = (0.5*squareWidth).toString() + "px";
+                    document.getElementById("maintextarea").style.width = (0.5*squareWidth).toString() + "px";
+                }
+                else{
+                    document.getElementById("maintextarea").style.display = "none";
+                    document.getElementById("scrollscroll").style.display = "block";
+                    document.getElementById("splitindicator").style.backgroundColor = "white";
+                    rawhtml = converter.makeHtml(readme_md);
+                    document.getElementById("scrollscroll").innerHTML = rawhtml;
+                    document.getElementById("scrollscroll").style.width = (squareWidth).toString() + "px";
+                    document.getElementById("maintextarea").style.width = (squareWidth).toString() + "px";
+                    document.getElementById("scrollscroll").style.right = "0%";
+                    document.getElementById("scrollscroll").style.left = "0%";
+
+                }
+            }
+
 
             //get readme.md, convert to html and display
             var converter = new showdown.Converter();
@@ -139,6 +191,8 @@
                 readme_md = this.value;
                 rawhtml = converter.makeHtml(this.value);
                 data = encodeURIComponent(this.value);
+                document.getElementById("scrollscroll").innerHTML = rawhtml;
+
                 var httpc = new XMLHttpRequest();
                 var url = "filesaver.php";        
                 httpc.open("POST", url, true);
@@ -170,6 +224,13 @@
                 border:solid;
                 border-width:0.1px;
                 border-color:red;
+                padding-left:1em;
+                padding-right:1em;
+            }
+            #scrollscroll img{
+                max-width:80%;
+                display:block;
+                margin:auto;
             }
             .deletebutton{
                 width:50px;
@@ -206,6 +267,13 @@
                 left:0px;
                 top:0px;
                 display:none;
+            }
+            #markdownhelp{
+                overflow:scroll;
+                left:0px;
+                right:0px;
+                padding-left:1em;
+                padding-right:1em;
             }
         </style>
     </body>
