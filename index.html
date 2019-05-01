@@ -128,7 +128,9 @@ linkFeed = [];
                     </select>                 
                 </td></tr>
             </table>       
+            <div id = "feedscroll">
 
+            </div>
             <div id = "sliderbar">
             <!--slider bar for scale-->
             <img id = "sliderimage" src = "icons/scaleslider.svg"/>
@@ -527,6 +529,63 @@ document.getElementById("branchnameinput").onchange = function() {
     this.style.display = "none";
 }
 
+uploadImages = [];
+var httpc = new XMLHttpRequest();
+    httpc.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        uploadImages = JSON.parse(this.responseText);
+        for(var index = 0;index < uploadImages.length;index++) {
+            var newuploadbox = document.createElement("DIV");
+            newuploadbox.classList.add("uploadbox");
+            var newimg = document.createElement("IMG");
+            newimg.src = "uploadimages/" + uploadImages[index];
+            newimg.classList.add("uploadimage");
+            newimg.classList.add("button");
+            newuploadbox.appendChild(newimg);
+            document.getElementById("feedscroll").appendChild(newuploadbox);
+            newimg.onclick = function() {
+                document.getElementById("urlinput").value = this.src;
+                mainmap.array[linkindex].url = this.src;
+                if(mainmap.array[linkindex].type == "image"){
+                    imageFeed.push(this.value);
+                }
+                mainmapbox.draw(mainmapbox);
+            }
+        }
+    }
+};
+
+httpc.open("GET", "dir.php?filename=uploadimages", true);
+httpc.send();
+
+symbolfeed = [];
+var httpc = new XMLHttpRequest();
+    httpc.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        uploadImages = JSON.parse(this.responseText);
+        for(var index = 0;index < uploadImages.length;index++) {
+            var newuploadbox = document.createElement("DIV");
+            newuploadbox.classList.add("uploadbox");
+            var newimg = document.createElement("IMG");
+            newimg.src = "symbolfeed/" + uploadImages[index];
+            newimg.classList.add("uploadimage");
+            newuploadbox.appendChild(newimg);
+            document.getElementById("feedscroll").appendChild(newuploadbox);
+            newimg.onclick = function() {
+                document.getElementById("urlinput").value = this.src;
+                mainmap.array[linkindex].url = this.src;
+                if(mainmap.array[linkindex].type == "image"){
+                    imageFeed.push(this.value);
+                }
+                mainmapbox.draw(mainmapbox);
+            }
+
+        }
+    }
+};
+httpc.open("GET", "dir.php?filename=symbolfeed", true);
+httpc.send();
+
 </script>
 <style>
 body{
@@ -661,6 +720,22 @@ input,table,select{
     position:absolute;
     left:0px;
     bottom:50%;
+}
+#feedscroll{
+    width:50%;
+    height:50%;
+    position:absolute;
+    right:0px;
+    top:0px;
+    overflow:scroll;
+}
+.uploadimage{
+    max-width:50%;
+    display:block;
+    margin:auto;
+}
+.deletebutton{
+    width:50px;
 }
 </style>
 </body>
