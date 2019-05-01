@@ -25,17 +25,26 @@ foreach($htmlfiles as $value){
 }
 
 foreach($jsfiles as $value){
-    copy("javascript/".$value,$branchname."/javascript/".$value);
+    if($value{0} != "."){
+        copy("javascript/".$value,$branchname."/javascript/".$value);
+    }
 }
 
 foreach($iconfiles as $value){
-    copy("icons/".$value,$branchname."/icons/".$value);
+    if($value{0} != "."){
+        copy("icons/".$value,$branchname."/icons/".$value);
+    }
 }
 
 foreach($phpfiles as $value){
+  if($value{0} != "."){
     copy("php/".$value,$branchname."/php/".$value);
-    copy("php/".$value,explode(".",$value)[0].".php");
-    
+  }
+}
+foreach($phpfiles as $value){
+  if($value{0} != "."){
+    copy("php/".$value,$branchname."/".explode(".",$value)[0].".php");
+  }
 }
 
 ?>
